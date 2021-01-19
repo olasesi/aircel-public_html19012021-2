@@ -1,0 +1,91 @@
+<div class="container-fluid">
+	<div class="row">
+  		<div class="col-xs-12 col-md-8">
+           <ul id="seo_product_heading_tags_languages_tabs" class="nav nav-pills" role="tablist">
+               {% for language in languages %} 
+               <li {{ language.language_id == default_language_id ? 'class="active"' : '' }}><a role="tab" data-toggle="tab" href="#seo_product_heading_tags_{{ language.language_id }}">
+                    <img src="language/{{ language.code }}/{{ language.code }}.png" alt="{{ language.name }}" title="{{ language.name }}" />
+               </a></li> 
+               {% endfor %}
+                <li><a role="tab" data-toggle="tab" href="#seo_product_heading_tags_advanced">{{ tab_seo_product_heading_tags_title }}</a></li>
+            </ul>
+            <div class="tab-content tabs">
+                {% for language in languages %} 
+                {% set lid = language.language_id  %} 
+                <div id="seo_product_heading_tags_{{ language.language_id }}" role="tabpanel" class="tab-pane fade in {{ language.language_id == default_language_id ? 'active' : '' }}">                
+                    <table class="table table-hover text-center"> 
+                        <thead> 
+                            <tr> 
+                                <th>#</th>
+                                <th class="text-center">{{ text_h1_heading_tags }}</th>
+                                <th class="text-center">{{ text_h2_heading_tags }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">{{ text_total_items }}</th>
+                                <td>{{ seo_data.total_products[lid] }}</td>
+                                <td>{{ seo_data.total_products[lid] }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{ text_product_heading_tags }}</th>
+                                <td>{{ seo_data.total_products_with_h1_tags[lid] }}</td>
+                                <td>{{ seo_data.total_products_with_h2_tags[lid] }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{ text_missing_heading_tags }}</th>
+                                <td class="{{ seo_data.total_h1_tags_difference[lid] > 0 ? 'danger' : 'success' }}">{{ seo_data.total_h1_tags_difference[lid] }}</td>
+                                <td class="{{ seo_data.total_h2_tags_difference[lid] > 0 ? 'danger' : 'success' }}">{{ seo_data.total_h2_tags_difference[lid] }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{ text_action }}</th>
+                                <td>
+                                    <a onclick="seoFixNow('product_h1_tags', {{ language.language_id }});" class="btn btn-md btn-primary {{ seo_data.total_h1_tags_difference[lid] > 0 ? '' : 'disabled' }} btn-seo-fix margin-fix">{{ text_generate }}</a>
+                                    <br /><br />
+                                    <a onclick="seoFixNow('product_h1_tags_all', {{ language.language_id }});" class="btn btn-md btn-success btn-seo-fix">{{ text_start_fresh }}</a>
+                                </td>
+                                <td>
+                                    <a onclick="seoFixNow('product_h2_tags', {{ language.language_id }});" class="btn btn-md btn-primary {{ seo_data.total_h2_tags_difference[lid] > 0 ? '' : 'disabled' }} btn-seo-fix margin-fix">{{ text_generate }}</a>
+                                    <br /><br />
+                                    <a onclick="seoFixNow('product_h2_tags_all', {{ language.language_id }});" class="btn btn-md btn-success btn-seo-fix">{{ text_start_fresh }}</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %} 
+                <div id="seo_product_heading_tags_advanced" role="tabpanel" class="tab-pane fade in">
+                    <div class="col-xs-12 col-md-6">
+                        <br />
+                        <h3>{{ text_h1_heading_tags_string }}</h3>
+                        <input name="h1_heading_tags_string" type="text" class="form-control input-md" value="{{ h1_heading_tags_string }}" />
+                        <br />{{ text_short_codes }}<br />
+                        [product], [model], [sku], [upc], [site_name]
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <br />
+                        <h3>{{ text_h2_heading_tags_string }}</h3>
+                        <input name="h2_heading_tags_string" type="text" class="form-control input-md" value="{{ h2_heading_tags_string }}" />
+                        <br />{{ text_short_codes }}<br />
+                        [product], [model], [sku], [upc], [site_name]
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                        <p class="text-left">
+                            <br />
+                            <a onClick="saveChanges('#seo_product_heading_tags_advanced');" class="btn btn-md btn-primary">{{ text_save_changes }}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+  		</div>
+  		
+  		<div class="col-xs-12 col-md-4">
+            <div class="box-heading">
+                <h1><i class="fa fa-info-circle" aria-hidden="true"></i>{{ tab_seo_product_heading_tags_helper_title }}</h1>
+            </div>
+            <div class="box-content">
+            {{ tab_seo_product_heading_tags_helper }}
+            </div>
+        </div>
+	</div>
+</div>

@@ -1,0 +1,83 @@
+<div class="modal-header">
+    <h3>Skin Manager</h3>
+</div>
+<style>
+    .modal-body {
+        max-height: 450px !important;
+        padding-bottom: 15px;;
+    }
+
+    .modal-body > div {
+        margin-top: 15px;
+        padding-left: 15px;
+    }
+
+    .modal-header h3 a{
+        float: right;
+        display: block;
+        text-transform: none;
+        font-size: 14px;
+        color: white;
+    }
+
+    .modal-header h3 a:hover{
+        color: #eee;
+    }
+
+    .modal-body > div > span:first-child {
+        width: 100px !important;
+        display: inline-block;
+    }
+    .modal-footer{
+        padding-bottom: 0;
+    }
+
+    .text-color span, .text-hover-color span {
+        display: block;
+    }
+    .skin-table{
+        width: 100%;
+    }
+    .skin-table thead td {
+        font-weight: bold;
+    }
+    .skin-table td{
+        height: 40px;
+        padding-left: 25px;
+        text-align: left;
+    }
+    .skin-table tr {
+        border-bottom: 1px solid #f4f4f4;
+    }
+    .skin-table tr td:first-child {
+       width: 100px;
+    }
+
+</style>
+<div class="modal-body skin-manager">
+    <div class="popup-option">
+        <table class="skin-table">
+            <thead>
+                <tr>
+                    <td>Skin</td>
+                    <td>Store</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="store in stores">
+                    <td>
+                        <select ui-select2="{minimumResultsForSearch: -1}" data-ng-model="store.skin_id" data-ng-change="skinChange()">
+                            <option data-ng-repeat="skin in skins" value="{{skin.id}}">{{skin.name}}</option>
+                        </select>
+                    </td>
+                    <td>{{store.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-primary green" ng-click="save($event)">Save</a>
+    <a class="btn btn-primary red" ng-click="cancel()">Cancel</a>
+    <br /><br />
+</div>

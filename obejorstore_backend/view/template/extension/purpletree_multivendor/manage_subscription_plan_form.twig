@@ -1,0 +1,163 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+        <button type="submit" form="form-subscription" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default btn-light"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default card">
+      <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-pencil fas fa-edit"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body card-body">
+        <form action="" method="post" enctype="multipart/form-data" id="form-subscription" class="form-horizontal">
+
+               <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-no_of_product">{{ column_seller_name }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" disabled readonly value="{{ seller_name }}" class="form-control" />
+                </div>
+              </div>
+			  {% if current_plan_name is defined %}
+				  {% for keys,values in current_plan_name %}
+			  <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-no_of_product">{{ entry_current_plan }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" disabled readonly value="{{ values }}" class="form-control" />
+                </div>
+              </div>
+			  {% endfor %}
+			  {% endif %}
+			{% if action == 'add' %}
+              <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-plan_name">{{ entry_select_plan }}</label>
+                  <input type="hidden" name="new_plan_id" value="" />
+                <div class="col-sm-10">
+                  <input type="text" name="filter_plan_name" value="" placeholder="{{ entry_select_plan }}" id="input-plan_name" class="form-control" />
+				    {% if error_select_plan %}
+                      <div class="text-danger">{{ error_select_plan }}</div>
+                      {% endif %}
+                </div>
+              </div>
+			  {% else %}
+			
+			  {% for keys,values in current_plan_name %}
+			  <input type="hidden" name="new_plan_id" value="{{ keys }}" />
+			  {% endfor %}
+			
+			  {% endif %}
+				
+			   <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label">{{ entry_start_date }}</label>
+                <div class="col-sm-10">
+					{% if plan_status == 'Active' and  action == 'edit' %}
+						{% else %}
+				<div class="col-sm-4">
+					<input checked="checked" type="radio" id="subscribenabled" name="start_date" value="0"> 
+					<label for="subscribenabled">{{ entry_start_now }}</label>
+					
+					<input type="hidden" name="actionbutton" value="{{ action }}">
+				</div>
+				{% endif %}
+					{% if action == 'edit' %}
+				<div class="col-sm-4">
+					<input type="radio" id="subscribdisabled" name="start_date" value="1"> <label for="subscribdisabled">{{ start_at_end_of_current_plan }}</label>
+				</div>
+				 {% endif %}
+                </div>
+              </div>
+			  
+              <div class="form-group row">
+                <label class="col-sm-2 control-label col-form-label" for="input-status">{{ column_subscription_status }}</label>
+                <div class="col-sm-10">
+                  <select name="subscription_status" id="input-status" class="form-control">
+                    {% if status %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+        
+        </form>
+      </div>
+    </div>
+  </div>
+  <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+  
+  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+  
+
+  <script type="text/javascript"><!--
+$('input[name=\'filter_store_name\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=extension/purpletree_multivendor/managesubscriptionplan/autocomplete&user_token={{ user_token }}&filter_store_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['store_name'],
+						value: item['seller_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_store_name\']').val(item['label']);
+	}
+});
+
+$('input[name=\'filter_plan_name\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=extension/purpletree_multivendor/managesubscriptionplan/autocomplete&user_token={{ user_token }}&seller_id={{ seller_id }}&filter_plan_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['plan_name'],
+						value: item['plan_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_plan_name\']').val(item['label']);
+		$('input[name=\'new_plan_id\']').val(item['value']);
+	}
+});
+
+
+
+//--></script>
+  <script type="text/javascript"><!--
+$('#language a:first').tab('show');
+//--></script></div>
+{{ footer }}

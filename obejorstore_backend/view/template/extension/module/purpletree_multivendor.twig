@@ -1,0 +1,1032 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+        <button type="submit" form="form-prupletree_multivendor" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default btn-light"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+  {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+    </div>
+    {% endif %}
+	    <div class="alert alert-success alertseucess" style="display:none"></div>
+	{% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+    </div>
+    {% endif%}
+    <div class="panel panel-default card">
+      <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-pencil fas fa-edit"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-purpletree-multivendor" class="form-horizontal">
+		 <ul class="nav nav-tabs">
+			<li class="active"><a href="#tab-general" data-toggle="tab">{{ text_general }}</a></li>
+			<li><a href="#tab-seller" data-toggle="tab">{{ text_seller }}</a></li>
+			<li><a href="#tab-subscription" data-toggle="tab">{{ text_subscription }}</a></li>
+			<li><a href="#tab-other" data-toggle="tab">{{ text_other_settings }}</a></li>
+			<li><a href="#tab-development" data-toggle="tab">{{ text_development }}</a></li>
+		  </ul>
+	<div class="tab-content">
+    <div class="tab-pane fade in active" id="tab-general">
+			  <div class="form-group py-1 row">
+				<label class="col-sm-2 col-form-label control-label" for="input-status">{{ entry_status }}</label>
+				<div class="col-sm-10">
+				  <select name="module_purpletree_multivendor_status" id="input-status" class="form-control">
+				  {% if module_purpletree_multivendor_status %}
+					<option value="1" selected="selected">{{ text_enabled }}</option>
+					<option value="0">{{ text_disabled }}</option>
+					{% else %}
+					<option value="1">{{ text_enabled }}</option>
+					<option value="0" selected="selected">{{ text_disabled }}</option>
+					{% endif %}
+				  </select>
+				</div>
+			  </div>
+			  <div class="form-group py-1 required">
+				<div class="col-sm-8">
+				  <input type="hidden" name="module_purpletree_multivendor_process_data" value="{{ module_purpletree_multivendor_process_data }}" class="form-control" id="setlicensee"/>
+					
+				  <input type="hidden" name="module_purpletree_multivendor_validate_text" value="{{ module_purpletree_multivendor_validate_text }}">
+				  <input type="hidden" name="module_purpletree_multivendor_live_validate_text" value="{{ module_purpletree_multivendor_live_validate_text }}">
+				  
+				  <input type="hidden" name="module_purpletree_multivendor_encypt_text" value="{{ module_purpletree_multivendor_encypt_text }}">
+				</div>
+				<div class="col-sm-12 col-sm-offset-2 offset-md-2">
+				   <button type="button" class="btn btn-primary" style="padding: 8px 20px;" id="getLicensee">{{ button_get_license }}</button>
+				</div>
+				</div>
+			
+	<div id="licenseModal" class="modal">
+					   <!-- Modal content -->
+			   <div class="modal-content">
+				  <div class="row">
+						<div class="col-lg-12 liceform">
+					   <span class="close">&times;</span>
+					   
+						   <div style="display:none" class="alert alert-danger col-lg-12" id="modal_lic_error">
+						  </div>
+						<div class="d-flex py-1" name="Licencekeyval1" style="margin-top: 15px;" >
+					
+						  <div class="col-lg-8"  style="padding:0;">
+						  
+						   <label class="control-label col-form-label" for="input-name">{{ enter_license_key1 }}</label>
+						   <input name="" id="licenskey1" value="" placeholder="{{ enter_license_key1 }}" class="form-control" autocomplete="off" type="text" name="Licencekeyval" /><ul class="dropdown-menu"></ul>
+						   </div>
+						   <div class="col-lg-2">
+						   <label class="control-label col-form-label" for="input-name" style="color:#fff">.</label>
+							<input value="{{ button_ok }}" class="btn btn-primary okbtn" type="button" onclick="savelicc()"/>
+									
+							</div>
+						</div>
+						<div class="col-lg-12" style="left:-13px;";>
+							 <input value="{{ dont_have_lisence_key }}" class="btn btn-primary licencekey2" style="margin-top:14px " type="button" onclick="dontlice()"/>	
+						</div>
+						
+						<div class="orderdiv col-lg-12 form-group p-0" style="display:none;">
+						   <label class="control-label col-form-label" for="input-name">{{ entry_order_id }}</label>
+						   <input name="order_id" id="order_id" value="" placeholder="{{ entry_order_id }}" id="input-name" class="form-control" autocomplete="off" type="text"><ul class="dropdown-menu" ></ul>
+	 
+						<div class=" py-1">
+						   <label class="control-label col-form-label" for="input-name">{{ entry_email_id }}</label>
+						   <input name="email_id" id="email_id" value="" placeholder="{{ entry_email_id }}" id="input-name" class="form-control" autocomplete="off" type="text"><ul class="dropdown-menu"></ul>
+					  </div>
+					  <div class="text-center col-lg-12  py-1">
+						<input value="{{
+						button_submit }}" class="btn btn-primary getlicbtn" style=" padding: 8px 20px 8px 20px;margin-top:15px; " type="button" onclick="getlicense()"/>
+									
+					  </div>
+					  </div>
+					  
+					</div>
+				 </div>
+				</div>
+						
+			</div>
+			
+			  <div class="row">
+				<div class="col-sm-12">
+					<div class="clearfix">
+						<div class="col-sm-12">
+							<h3>{{ vendor_heading }}</h3>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_commission_status }}</label>
+								<div class="col-md-9">
+								<select name="module_purpletree_multivendor_commission_status" class="form-control">
+									{% for status in order_statuses %}
+										<option {% if module_purpletree_multivendor_commission_status == status.order_status_id %} selected="selected" {% elseif module_purpletree_multivendor_commission_status == '' and status.name == 'Complete' %} selected="selected" {% endif %} value="{{status.order_status_id}}">{{ status.name }}</option>
+									{% endfor %}
+								</select>
+									  {% if commission_status_error %}
+										<div class="text-danger">{{ commission_status_error }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_commission }}</label>
+								<div class="col-md-9">
+									<input type="text" name="module_purpletree_multivendor_commission" class="form-control" value="{{ module_purpletree_multivendor_commission is defined?module_purpletree_multivendor_commission:'' }}"/>
+									{% if commission_error %}
+										<div class="text-danger">{{ commission_error }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+							<!--Shipping Commission-->
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_shipping_commission }}</label>
+								<div class="col-md-9">
+									<input type="text" name="module_purpletree_multivendor_shipping_commission" class="form-control" value="{{ module_purpletree_multivendor_shipping_commission is defined?module_purpletree_multivendor_shipping_commission:'' }}"/>
+									{% if shipping_commission_error %}
+										<div class="text-danger">{{ shipping_commission_error }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<!--Shipping Commission-->
+						<!--Seller group config-->
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ commission_from_seller_group }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_seller_group" class="form-control">
+										{% if module_purpletree_multivendor_seller_group %}
+										<option value="0">{{ text_no }}</option>
+										<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+										<option value="0" selected="selected">{{ text_no }}</option>
+										<option value="1">{{ text_yes }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<!--Seller group config-->
+						<div class="col-sm-12">
+							<div class="form-group py-1 row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ Commission_invoice_footer_text }}</label>
+								<div class="col-md-9">
+									<input type="text" placeholder="{{ Commission_invoice_footer_text }}" name="module_purpletree_multivendor_footer_text" class="form-control" value="{{ module_purpletree_multivendor_footer_text }}"/>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_seller_manage_order }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_seller_manage_order" class="form-control">
+										{% if module_purpletree_multivendor_seller_manage_order %}
+										<option value="0">{{ text_no }}</option>
+										<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+										<option value="0" selected="selected">{{ text_no }}</option>
+										<option value="1">{{ text_yes }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_seller_approval }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_seller_approval" class="form-control">
+										{% if module_purpletree_multivendor_seller_approval %}
+										<option value="0">{{ text_no }}</option>
+										<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+										<option value="0" selected="selected">{{ text_no }}</option>
+										<option value="1">{{ text_yes }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_product_approval }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_product_approval" class="form-control">
+									{% if module_purpletree_multivendor_product_approval %}
+											<option value="0">{{ text_no }}</option>
+											<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+											<option value="0" selected="selected">{{ text_no }}</option>
+											<option value="1">{{ text_yes }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_allow_category }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_allow_categorytype" class="form-control">
+									{% if module_purpletree_multivendor_allow_categorytype %}
+											<option value="0">{{ text_selected_categories }}</option>
+											<option value="1" selected="selected">{{ text_allowed_categories }}</option>
+										{% else %}
+											<option value="0" selected="selected">{{ text_selected_categories }}</option>
+											<option value="1">{{ text_allowed_categories }}</option>
+									{% endif %}
+									</select>
+									{% if module_purpletree_multivendor_allow_categorytype %}
+										<input type="text" name="category" value="" disabled id="input-category" class="form-control" />
+									{% else %}
+										<input type="text" name="category" value="" id="input-category" class="form-control" />
+									{% endif %}
+									<div id="product-category" class="well well-sm" style="height: 150px; overflow: auto;">
+									{% if module_purpletree_multivendor_allow_category %}
+										{%	for key, product_category in module_purpletree_multivendor_allow_category %}
+										<div id="product-category{{ product_category }}"><i class="fa fa-minus-circle"></i> {{ key }} 
+											{% if module_purpletree_multivendor_allow_categorytype %} {% else %}
+										<input type="hidden" name="module_purpletree_multivendor_allow_category[]" value="{{ product_category }}"/>
+										{% endif %}
+										</div>
+										{% endfor %}
+										{% endif %}
+									</div>
+								</div> 
+							</div>
+						</div>
+								<!-- product category -->
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-seller_product_category">{{ entry_seller_product_category }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_seller_product_category" class="form-control" id="input-seller_product_category">
+									{% if module_purpletree_multivendor_seller_product_category %}
+									
+											<option value="0">{{ text_multiple }}</option>
+											<option value="1" selected="selected">{{ text_single }}</option>
+												{% else %}
+											<option value="0" selected="selected">{{ text_multiple }}</option>
+											<option value="1">{{ text_single }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<!-- product category -->
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_become_seller }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_become_seller" class="form-control">
+									{% if module_purpletree_multivendor_become_seller %}
+											<option value="0">{{ text_no }}</option>
+											<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+											<option value="0" selected="selected">{{ text_no }}</option>
+											<option value="1">{{ text_yes }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_allow_live_chat }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_allow_live_chat" class="form-control">
+									{% if module_purpletree_multivendor_allow_live_chat %}
+											<option value="0">{{ text_no }}</option>
+											<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+											<option value="0" selected="selected">{{ text_no }}</option>
+											<option value="1">{{ text_yes }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<!-- my div -->
+					 <div class="col-sm-12">
+						<div class="form-group py-1 required row">
+						   <label class="col-md-3 control-label col-form-label" for="input-name">{{ allow_browse_sellers }}</label>
+							 <div class="col-md-9">
+									<select name="module_purpletree_multivendor_browse_sellers" class="form-control">
+									{% if module_purpletree_multivendor_browse_sellers %}
+									<option value="0">{{ text_no }}</option>
+									<option value="1" selected="selected">{{ text_yes }}</option>
+									{% else %}
+									<option value="0" selected="selected">{{ text_no }}</option>
+									<option value="1">{{ text_yes }}</option>
+								{% endif %}								</select>
+							</div>
+						</div>
+					 </div>	
+					 <!--Hide user menu-->
+					  <div class="col-sm-12">
+						<div class="form-group py-1 required row">
+						   <label class="col-md-3 control-label col-form-label" for="input-hide-user-menu">{{ text_hide_user_menu }}</label>
+							 <div class="col-md-9">
+									<select name="module_purpletree_multivendor_hide_user_menu" class="form-control" id="input-hide-user-menu">
+									{% if module_purpletree_multivendor_hide_user_menu %}
+									<option value="0">{{ text_no }}</option>
+									<option value="1" selected="selected">{{ text_yes }}</option>
+									{% else %}
+									<option value="0" selected="selected">{{ text_no }}</option>
+									<option value="1">{{ text_yes }}</option>
+								{% endif %}								</select>
+							</div>
+						</div>
+					 </div>	
+					<!--End Hide user menu--> 
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="tab-pane fade in" id="tab-seller">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="clearfix">
+						<div class="col-sm-12">
+							<h3>{{ seller_product_heading }}</h3>
+						</div>
+						<!--Hide Seller Product Tabs-->
+					  <div class="col-sm-12">
+						<div class="form-group py-1 required row">
+						   <label class="col-md-3 control-label col-form-label" for="input-hide-user-menu">{{ text_hide_seller_product_tab }}</label>
+							 <div class="col-md-9">
+									<select name="module_purpletree_multivendor_hide_seller_product_tab" class="form-control" id="input-hide-user-menu">
+								{% if module_purpletree_multivendor_hide_seller_product_tab %}
+									<option value="0">{{ text_no }}</option>
+									<option value="1" selected="selected">{{ text_yes }}</option>
+									{% else %}
+									<option value="0" selected="selected">{{ text_no }}</option>
+									<option value="1">{{ text_yes }}</option>
+							   {% endif %}						
+							  </select>
+							</div>
+						</div>
+					 </div>	
+					<!-- End Hide Seller Product Tabs--> 
+					    <div class="col-sm-12">
+						<div class="form-group py-1 required row">
+						   <label class="col-md-3 control-label col-form-label" for="input-product-template">{{ text_seller_product_template }}</label>
+							 <div class="col-md-9">
+									<select name="module_purpletree_multivendor_seller_product_template" class="form-control" id="input-product-template">
+								{% if module_purpletree_multivendor_seller_product_template %}
+									<option value="0">{{ text_no }}</option>
+									<option value="1" selected="selected">{{ text_yes }}</option>
+									{% else %}
+									<option value="0" selected="selected">{{ text_no }}</option>
+									<option value="1">{{ text_yes }}</option>
+							   {% endif %}						
+							  </select>
+							</div>
+						</div>
+					 </div>	
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_allow_related }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_allow_related_product" class="form-control">
+									{% if module_purpletree_multivendor_allow_related_product %}
+											<option value="0">{{ text_no }}</option>
+											<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+											<option value="0" selected="selected">{{ text_no }}</option>
+											<option value="1">{{ text_yes }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+							<!-- End Hide freatured edit button--> 
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_featured_enabled_hide_edit }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_featured_enabled_hide_edit" class="form-control">
+									{% if module_purpletree_multivendor_featured_enabled_hide_edit %}
+											<option value="0">{{ text_no }}</option>
+											<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+											<option value="0" selected="selected">{{ text_no }}</option>
+											<option value="1">{{ text_yes }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_limit_purchase }}</label>
+								<div class="col-md-9">
+									<input type="text" name="module_purpletree_multivendor_product_limit" class="form-control" value="{{ module_purpletree_multivendor_product_limit is defined?module_purpletree_multivendor_product_limit:'' }}"/>
+									{% if product_limit_error %}
+										<div class="text-danger">{{ product_limit_error }}</div>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="clearfix">
+						<div class="col-sm-12">
+							<h3>{{ seller_review_heading }}</h3>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_seller_review }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_seller_review" class="form-control">
+									{% if module_purpletree_multivendor_seller_review %}
+											<option value="0">{{ text_no }}</option>
+											<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+											<option value="0" selected="selected">{{ text_no }}</option>
+											<option value="1">{{ text_yes }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="clearfix">
+						<div class="col-sm-12">
+							<h3>{{ seller_contact_heading }}</h3>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_seller_contact }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_seller_contact" class="form-control">
+									{% if module_purpletree_multivendor_seller_contact %}
+											<option value="0">{{ text_seller_general }}</option>
+											<option value="1" selected="selected">{{ text_seller_logedin }}</option>
+										{% else %}
+											<option value="0" selected="selected">{{ text_seller_general }}</option>
+											<option value="1">{{ text_seller_logedin }}</option>
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!----- Start seller Blog setting ---------->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="clearfix">
+						<div class="col-sm-12">
+							<h3>{{ seller_blog_heading }}</h3>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group required">
+								<label class="col-md-3 control-label " for="input-blog">{{ entry_seller_sort_by }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_seller_blog_order" class="form-control" id = "input-blog">
+								 {% if module_purpletree_multivendor_seller_blog_order %}
+										<option value="0">{{ text_sort_order }}</option>
+										<option value="1" selected="selected">{{ text_create_date_order }}</option>
+									{% else %}
+										<option value="0" selected="selected">{{ text_sort_order }}</option>
+											<option value="1">{{ text_create_date_order }}</option>
+								{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!----- End seller Blog setting ---------->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="clearfix">
+						<div class="col-sm-12">
+							<h3>{{ seller_store_heading }}</h3>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_seller_store }}</label>
+								<div class="col-md-9 py-2">
+									<label class="checkbox-inline"><input type="checkbox" value="1" name="module_purpletree_multivendor_seller_name" {{ module_purpletree_multivendor_seller_name ? 'checked="checked"' : '' }} > {{ text_store_seller_name }}</label>
+									<label class="checkbox-inline"><input type="checkbox" value="1" name="module_purpletree_multivendor_store_email" {{ module_purpletree_multivendor_store_email ? 'checked="checked"' : '' }} > {{ text_store_email }}</label>
+									
+									<label class="checkbox-inline"><input type="checkbox" value="1" name="module_purpletree_multivendor_store_phone" {{ module_purpletree_multivendor_store_phone ? 'checked="checked"' : '' }} > {{ text_store_phone }}</label>
+									
+									<label class="checkbox-inline"><input type="checkbox" value="1" name="module_purpletree_multivendor_store_address" {{ module_purpletree_multivendor_store_address ? 'checked="checked"' : '' }} > {{ text_store_address }}</label>
+									<!-- /////    Store social link   ////// -->
+									 <label class="checkbox-inline"><input type="checkbox" value="1" name="module_purpletree_multivendor_store_social_link" {{ module_purpletree_multivendor_store_social_link ? 'checked="checked"' : '' }} > {{ text_store_social_link }}</label>
+								  <!--  ////  Store social link end ////// -->
+								</div>
+							</div>
+						</div>		
+						<div class="col-sm-12">
+							<div class="form-group py-1 row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_seller_invoice }}</label>
+								<div class="col-md-9">
+									<div class="radio">
+										<label><input type="radio" name="module_purpletree_multivendor_seller_invoice" value="1" checked>&nbsp;{{ text_yes }}</label>
+										<label><input type="radio" name="module_purpletree_multivendor_seller_invoice" {{ ((module_purpletree_multivendor_seller_invoice=="0")?"checked":"") }} value="0">&nbsp;{{ text_no }}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade in" id="tab-subscription">
+							<!----- Subcription plan---------->
+			 <div class="row">
+				<div class="col-sm-12">
+					<div class="clearfix">
+						<div class="col-sm-12">
+							<h3>{{ heading_subscription_plan }}</h3>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ enable_subscription_plans_txt }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_subscription_plans" class="form-control subscriptionchange">
+										{% if module_purpletree_multivendor_subscription_plans %}
+										<option value="0">{{ text_no }}</option>
+										<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+										<option value="0" selected="selected">{{ text_no }}</option>
+										<option value="1">{{ text_yes }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="subscription" {% if module_purpletree_multivendor_subscription_plans %} {% else %} style="display:none" {% endif %} >
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ enable_subscription_price_txt }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_subscription_price" class="form-control">
+										{% if module_purpletree_multivendor_subscription_price %}
+										<option value="0">{{ text_no }}</option>
+										<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+										<option value="0" selected="selected">{{ text_no }}</option>
+										<option value="1">{{ text_yes }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ enable_joining_fees_txt }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_joining_fees" class="form-control">
+										{% if module_purpletree_multivendor_joining_fees %}
+										<option value="0">{{ text_no }}</option>
+										<option value="1" selected="selected">{{ text_yes }}</option>
+										{% else %}
+										<option value="0" selected="selected">{{ text_no }}</option>
+										<option value="1">{{ text_yes }}</option>
+										{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ paypal_hosted_button_id }}</label>
+								<div class="col-md-9">
+									<input type="text" placeholder="{{ paypal_hosted_button_id }}" name="module_purpletree_multivendor_paypal_email" class="form-control" value="{{ module_purpletree_multivendor_paypal_email }}"/>
+									{% if error_paypal_email %}
+										<div class="text-danger">{{ error_paypal_email }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ tax_name_txt }}</label>
+								<div class="col-md-9">
+									<input type="text" placeholder="{{ tax_name_txt }}" name="module_purpletree_multivendor_tax_name" class="form-control" value="{{ module_purpletree_multivendor_tax_name }}"/>
+									{% if tax_name_error %}
+										<div class="text-danger">{{ tax_name_error }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ tax_value_txt }}</label>
+								<div class="col-md-9">
+									<input type="text" placeholder="{{ tax_value_txt }}" name="module_purpletree_multivendor_tax_value" class="form-control" value="{{ module_purpletree_multivendor_tax_value }}"/>
+									{% if tax_value_error %}
+										<div class="text-danger">{{ tax_value_error }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ reminder_one_days_before_to_be_sent_txt }}</label>
+								<div class="col-md-9">
+										<input type="text" placeholder="{{ reminder_one_days_before_to_be_sent_txt }}" name="module_purpletree_multivendor_reminder_one_days" class="form-control" value="{{ module_purpletree_multivendor_reminder_one_days }}"/>
+										{% if error_reminder_one_days %}
+											<div class="text-danger">{{ error_reminder_one_days }}</div>
+										{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ reminder_two_days_before_to_be_sent_txt }}</label>
+								<div class="col-md-9">
+									<input type="text" placeholder="{{ reminder_two_days_before_to_be_sent_txt }}" name="module_purpletree_multivendor_reminder_two_days" class="form-control" value="{{ module_purpletree_multivendor_reminder_two_days }}"/>
+									{% if error_reminder_two_days %}
+										<div class="text-danger">{{ error_reminder_two_days }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ reminder_three_days_before_to_be_sent_txt }}</label>
+								<div class="col-md-9">
+									<input type="text" placeholder="{{ reminder_three_days_before_to_be_sent_txt }}"  name="module_purpletree_multivendor_reminder_three_days" class="form-control" value="{{ module_purpletree_multivendor_reminder_three_days }}"/>
+									{% if error_reminder_three_days %}
+										<div class="text-danger">{{ error_reminder_three_days }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ grace_period_txt }}</label>
+								<div class="col-md-9">
+									<input type="text" placeholder="{{ reminder_three_days_before_to_be_sent_txt }}" name="module_purpletree_multivendor_grace_period" class="form-control" value="{{ module_purpletree_multivendor_grace_period }}"/>
+									{% if error_grace_period %}
+										<div class="text-danger">{{ error_grace_period }}</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+						<div class="form-group py-1 required row">
+								<label class="col-md-3 control-label col-form-label" for="input-name">{{ enable_multiple_active_plan }}</label>
+								<div class="col-md-9">
+									<select name="module_purpletree_multivendor_multiple_subscription_plan_active" class="form-control">
+									{% if module_purpletree_multivendor_multiple_subscription_plan_active %}
+										<option value="0">{{ text_no }}</option>
+										<option value="1" selected="selected">{{ text_yes }}</option>
+											{% else %}
+										<option value="0" selected="selected">{{ text_no }}</option>
+										<option value="1">{{ text_yes }}</option>
+											{% endif %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+								<div class="form-group">
+								<label class="col-md-3 control-label" for="input-currency">{{ text_default_currency_paypal }}</label>
+								<div class="col-md-9">
+								  <select name="module_purpletree_multivendor_paypal_currency" id="input-currency" class="form-control">
+							{% for currencies in paypalcurrencies %} 
+								{% if currencies.code == module_purpletree_multivendor_paypal_currency %} 
+									<option value="{{ currencies.code }}" selected="selected">{{ currencies.title }}</option>
+								{% else %} 
+									<option value="{{ currencies.code }}">{{ currencies.title }}</option>
+								{% endif %} 
+							{% endfor %} 
+								  </select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+				<!----end subscription plan---------->
+	</div>
+	<div class="tab-pane fade in" id="tab-other">
+				<!----Start development option---------->
+				 <div class="row">
+					<div class="col-sm-12">
+						<div class="clearfix">
+							<div class="col-sm-12">
+								<h3>{{ text_other_settings }}</h3>
+							</div>
+					<div class="col-sm-12">
+						<div class="form-group py-1 required row">
+							<label class="col-md-3 control-label col-form-label" for="input-name">{{ entry_allow_metals }}</label>
+							<div class="col-md-9">
+								<select name="module_purpletree_multivendor_allow_metals_product" class="form-control">
+								{% if module_purpletree_multivendor_allow_metals_product %}
+										<option value="0">{{ text_no }}</option>
+										<option value="1" selected="selected">{{ text_yes }}</option>
+									{% else %}
+										<option value="0" selected="selected">{{ text_no }}</option>
+										<option value="1">{{ text_yes }}</option>
+								{% endif %}
+								</select>
+							</div>
+						</div>
+					</div>
+						</div>
+					</div>
+				</div>	
+			</div>	
+	<div class="tab-pane fade in" id="tab-development">
+				<!----Start development option---------->
+				 <div class="row">
+					<div class="col-sm-12">
+						<div class="clearfix">
+							<div class="col-sm-12">
+								<h3>{{ heading_development_Option }}</h3>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group py-1 required row">
+									<label class="col-md-3 control-label col-form-label" for="input-jquery">
+									{{ enable_include_jquery}}</label>
+									<div class="col-md-9">
+										<select name="module_purpletree_multivendor_include_jquery" class="form-control" id="input-jquery">
+											{% if module_purpletree_multivendor_include_jquery == 1 %}
+											<option value="1" selected="selected">{{ text_yes }}</option>
+											<option value="0">{{ text_no }}</option>
+											{% else %}
+											<option value="1">{{ text_yes }}</option>
+											<option value="0" selected="selected">{{ text_no }}</option>
+											{% endif %}
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>	
+				<!----end development option---------->
+			</form>
+		</div>
+			   <div style="line-height: 14px;font-weight: bold;" class="panel-footer card-footer text-center">{{ version}}
+			   </div>
+			</div>
+		  </div>
+		</div>
+	</div>
+<script type="text/javascript">
+$(document).ready(function(){ 
+	var allowedCat = '{{ module_purpletree_multivendor_allow_categorytype }}';
+	
+	if(!allowedCat){
+		$('select[name="module_purpletree_multivendor_allow_categorytype"]').val(1);
+		$('#input-category').prop('disabled', true);
+		
+		$('#product-category').empty();
+		$.ajax({
+		url:'index.php?route=extension/purpletree_multivendor/sellerproducts/assignCategory&user_token={{ user_token }}&filter_name=',
+			dataType: 'json',
+			success: function(json) {
+				$.map(json, function(item) {
+					$('#product-category').append('<div id="product-category' + item['category_id'] + '"><i class="fa fa-minus-circle"></i> ' + item['name'] + '<input type="hidden" name="module_purpletree_multivendor_allow_category[]" value="' + item['category_id'] + '" /></div>');
+				});
+			}
+		});
+	}
+});
+$('.subscriptionchange').on('change', function(){
+	var selectid = $(this).val();
+	if(selectid == "1") {
+		$('.subscription').css('display','block');
+	} else {
+		$('.subscription').css('display','none');
+	}
+})
+$('select[name="module_purpletree_multivendor_allow_categorytype"]').on('change', function(){
+	var selectid = $(this).val();
+	if(selectid=="1"){
+		$('#input-category').prop('disabled', true);
+		
+		$('#product-category').empty();
+		$.ajax({
+			url:'index.php?route=extension/purpletree_multivendor/sellerproducts/assignCategory&user_token={{ user_token }}&filter_name=',
+			dataType: 'json',
+			success: function(json) {
+				$.map(json, function(item) {
+					$('#product-category').append('<div id="product-category' + item['category_id'] + '"><i class="fa fa-minus-circle"></i> ' + item['name'] + '</div>');
+				});
+			}
+		});
+		
+	} else{
+		$('#input-category').prop('disabled', false);
+		$('#product-category').empty();
+		$.ajax({
+			url:'index.php?route=extension/module/purpletree_multivendor/getSelectedCategory&user_token={{ user_token }}&filter_name=',
+			dataType: 'json',
+			success: function(json) {
+				$.map(json, function(item) {
+					$('#product-category').append('<div id="product-category' + item['category_id'] + '"><i class="fa fa-minus-circle"></i> ' + item['name'] + '<input type="hidden" name="module_purpletree_multivendor_allow_category[]" value="' + item['category_id'] + '" /></div>');
+				});
+			}
+		});
+	}
+});
+$('input[name=\'category\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url:'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'category\']').val('');
+
+		$('#product-category' + item['value']).remove();
+
+		$('#product-category').append('<div id="product-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="module_purpletree_multivendor_allow_category[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+$('#product-category').delegate('.fa-minus-circle', 'click', function() {
+
+	var cat_id = $(this).next().val();
+	var div_remov = $(this).parent();
+	$.ajax({
+		url:'index.php?route=extension/purpletree_multivendor/sellerproducts/checkCategoryassign&user_token={{ user_token }}&filter_name='+cat_id,
+		type: 'GET',
+		success: function(result) {
+			if(result > 0){
+				alert("{{ text_assign_categories }}");
+			} else{ 
+				div_remov.remove();
+			}
+		}
+	});
+});
+
+</script>
+<style>
+
+<!-- body {font-family: Arial, Helvetica, sans-serif;} -->
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 15px;
+    border: 1px solid #888;
+	width: 30%;
+}
+.mbutton{
+margin-top: 62px;
+margin-left: 282px;
+}
+
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.liceform .form-group py-1 {
+margin:0;
+}		
+</style>
+<script>
+var modal = document.getElementById('licenseModal');
+var btn = document.getElementById("getLicensee");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+    modal.style.display = "block";
+	// $('#modal_lic_error').html('');
+	 $('#modal_lic_error').css('display','none');
+}
+span.onclick = function() {
+    modal.style.display = "none";
+	$('.orderdiv').css('display','none');
+}
+
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+<script>
+function savelicc(){
+	var licenskey1 = $('#licenskey1').val();
+	if (licenskey1 == "") {
+        $('#modal_lic_error').html("{{ error_Enter_license_key }}");
+		$('#modal_lic_error').css('display','block');
+	    $('.alertseucess').css('display','none');
+    } else {
+	$('.alertseucess').text("{{ text_license_key_changed }}");
+		$('.alertseucess').css('display','block');
+	$('#setlicensee').val(licenskey1);
+		$('.orderdiv').css('display','none');
+			   $('.close').click();
+	}
+}
+function dontlice(){
+	$('.orderdiv').css('display','block');
+}
+function getlicense(order_id,Email_id){
+$('.getlicbtn').addClass('disabled');
+$('.getlicbtn').val("{{ please_wait }}");
+var order_id = document.getElementById('order_id').value;
+var email_id = document.getElementById('email_id').value;
+    if (!order_id.match(/^\d+/)) {
+				$('#modal_lic_error').html("{{ error_order_id }}");
+			    $('#modal_lic_error').css('display','block');
+				$('.getlicbtn').removeClass('disabled');
+			    $('.getlicbtn').val("{{ button_submit }}");
+	  return false;
+    } 
+    var atpos = email_id.indexOf("@");
+    var dotpos = email_id.lastIndexOf(".");
+    if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email_id.length) {
+		 $('#modal_lic_error').html("{{ error_email_id }}");
+			    $('#modal_lic_error').css('display','block');
+				$('.getlicbtn').removeClass('disabled');
+			$('.getlicbtn').val("{{ button_submit }}")
+        return false;
+    }
+$.ajax ({
+            url: "https://process.purpletreesoftware.com/processorder.php",
+            data:'order_id='+order_id+'&email_id='+email_id+'&module=purpletree_multivendor_oc',
+			type: 'POST',
+			dataType: "json",
+            success: function( result ) {
+			$('.getlicbtn').removeClass('disabled');
+			$('.getlicbtn').val("{{ button_submit }}")
+			if(result.status == 'success') {
+			$('.alertseucess').text("{{ text_license_key_changed }}");
+				$('.alertseucess').css('display','block');
+               $('#setlicensee').val(result.process_data);
+			   $('.orderdiv').css('display','none');
+			   $('.close').click();
+			   } else {
+			    $('#modal_lic_error').html(result.msg);
+			    $('#modal_lic_error').css('display','block');
+			   }
+            }
+        });
+    }
+</script>
+{{ footer }}

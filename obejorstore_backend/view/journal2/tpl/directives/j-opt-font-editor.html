@@ -1,0 +1,238 @@
+<div class="modal-header">
+    <h3>
+        Font Editor
+        <span>
+            Font Inspiration: &nbsp;
+            <a href="http://fontpair.co/" target="_blank" rel="nofollow">1</a> -
+            <a href="https://femmebot.github.io/google-type/" target="_blank" rel="nofollow">2</a> -
+            <a href="http://fontflame.com/" target="_blank" rel="nofollow">3</a> -
+            <a href="http://www.google.com/fonts" target="_blank" rel="nofollow"><b>All Fonts</b></a>
+        </span>
+    </h3>
+    <a class="reset-btn" ng-click="reset()">Reset</a>
+</div>
+<style>
+    .modal-header .reset-btn {
+        color: white;
+        position: absolute;
+        top: 20px;
+        cursor: pointer;
+    }
+    .reset-btn {
+        position: absolute;
+        left: 130px;
+        margin-top:-2px;
+    }
+    .modal.fade.in{
+        top: 50% !important;
+        margin-top: -300px;
+    }
+    .modal-body {
+        max-height: 850px !important;
+        padding-bottom: 15px;;
+    }
+
+    .modal-body > div {
+        margin-top: 15px;
+        padding-left: 15px;
+    }
+
+    .modal-header h3{
+        display: flex;
+        align-items: center;
+    }
+    .modal-header span{
+        text-transform:none;
+        margin-left:auto;
+        font-size: 13px;
+    }
+    .modal-header h3 a{
+        text-transform: none;
+        font-size: 14px;
+        color: white;
+        font-weight: bold;
+        text-decoration: underline;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .modal-header h3 a:hover{
+        color: #EA2E49;
+    }
+
+    .modal-body > div > span:first-child {
+        width: 100px !important;
+        display: inline-block;
+    }
+    .modal-footer{
+        padding-bottom: 0;
+    }
+
+    .select2-container {
+        width: 200px !important;
+    }
+
+    .font-preview  {
+        margin-top: 0 !important;
+        background-color: #f4f4f4;
+        box-sizing: border-box;
+        overflow: auto;
+        padding: 8px 10px !important;
+        width: 100%;
+        height: auto;
+        display: table;
+        position: relative;
+    }
+
+    .font-preview span {
+        text-align: center;
+        vertical-align: middle;
+        display: table-row !important;
+        /*color: rgb(234, 35, 73);*/
+        color: #333;
+        line-height: 1.1;
+        background-color: #f4f4f4;
+        position: relative;
+    }
+
+    .font-preview .edit-text {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .font-preview textarea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 97%;
+        height: 87%;
+    }
+
+    .font-name i {
+        display: none;
+    }
+
+    .wf-loading .font-name i {
+        display: inline-block;
+    }
+
+
+    .text-color span, .text-hover-color span {
+        display: block;
+    }
+
+    .j-opt-color{
+        display: inline-block;
+    }
+    .hide{
+        visibility: hidden;
+        opacity: 0;
+    }
+    .choose-font{
+        position: absolute;
+        display: block;
+        top: 38px;
+        text-align: center;
+        font-size: 17px;
+        opacity: .3;
+        left: 50%;
+        margin-left: -80px;
+    }
+</style>
+<div class="modal-body font-editor">
+    <div class="font-preview">
+        <div class="choose-font" data-ng-show="font.font_type == 'none'">Choose a Font Type</div>
+        <span ng-class="{hide: font.font_type === 'none'}" ng-style="{
+            'font-family'     : font.font_type === 'google' ? font.font_name : font.font_family,
+            'font-size'       : '35px',
+            'font-style'      : getStyle(font),
+            'font-weight'     : getWeight(font),
+            'text-transform'  : font.text_transform,
+            'opacity'         : !!loading ? 0 : 1
+        }">{{dummyText}}</span>
+        <textarea data-ng-model="dummyText" data-ng-show="isEditable"></textarea>
+        <a class="edit-text" ng-class="{hide: font.font_type === 'none'}" data-ng-click="editText()">{{getEditBtnText()}}</a>
+    </div>
+
+    <div class="popup-option font-type">
+        <span class="font-type-span">Font Type</span>
+        <switch data-ng-model="font.font_type" data-ng-change="fontTypeChanged(font)">
+            <switch-option key="none">Inherit</switch-option>
+            <switch-option key="system">System</switch-option>
+            <switch-option key="google">Google</switch-option>
+        </switch>
+    </div>
+
+    <div class="popup-option font-subset" data-ng-show="font.font_type == 'google'">
+        <span>Font Subsets</span>
+        <select ui-select2 data-ng-model="font.font_subset" multiple>
+            <option data-ng-repeat="subset in font_subsets" value="{{subset}}">{{subset}}</option>
+        </select>
+    </div>
+
+    <div class="popup-option font-name" data-ng-hide="font.font_type == 'none'">
+        <span>Font Name</span>
+        <select data-ng-show="font.font_type === 'google'" ui-select2="{matcher: matcher}" data-ng-model="font.font_name" data-ng-change="fontChanged(font)" data-ng-disabled="font.font_subset.length == 0">
+            <option data-ng-repeat="font in fonts.google_fonts|filterFonts:font.font_subset" value="{{font.family}}">{{font.family}}</option>
+        </select>
+        <select data-ng-show="font.font_type === 'system'" ui-select2="{matcher: matcher}" data-ng-model="font.font_family" data-ng-change="fontChanged(font)">
+            <option data-ng-repeat="font in fonts.system_fonts" value="{{font.family}}">{{font.family}}</option>
+        </select>
+    </div>
+
+    <div class="popup-option font-size">
+        <span>Font Size</span>
+        <select ui-select2 data-ng-model="font.font_size">
+            <option data-ng-repeat="size in font_sizes" value="{{size}}">{{size}}</option>
+        </select>
+    </div>
+
+    <div class="popup-option font-size">
+        <span>Mobile Font Size</span>
+        <select ui-select2 data-ng-model="font.font_size_mobile">
+            <option data-ng-repeat="size in font_sizes" value="{{size}}">{{size}}</option>
+        </select>
+    </div>
+
+    <div class="popup-option font-weight">
+        <span>Font Weight</span>
+        <select ui-select2="{minimumResultsForSearch: -1}" data-ng-model="font.font_weight">
+            <option data-ng-repeat="font_weight in font_weights" value="{{font_weight}}">{{font_weight ? font_weight.capitalize() : '---'}}</option>
+        </select>
+    </div>
+
+    <div class="popup-option font-style">
+        <span>Font Style</span>
+        <select ui-select2="{minimumResultsForSearch: -1}" data-ng-model="font.font_style">
+            <option value="">---</option>
+            <option value="normal">Normal</option>
+            <option value="italic">Italic</option>
+        </select>
+    </div>
+
+    <div class="popup-option text-transform">
+        <span>Text Transform</span>
+        <select ui-select2="{minimumResultsForSearch: -1}" data-ng-model="font.text_transform">
+            <option value="">---</option>
+            <option value="none">None</option>
+            <option value="lowercase">Lowercase</option>
+            <option value="uppercase">Uppercase</option>
+        </select>
+    </div>
+
+    <div class="popup-option letter-spacing">
+        <span>Letter spacing</span>
+        <input type="text" class="journal-number-field" data-ng-model="font.letter_spacing" placeholder="Normal" />
+    </div>
+
+    <div class="popup-option text-color">
+        <span>Font Color</span>
+        <j-opt-color data-ng-model="font.color"></j-opt-color>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <a class="btn btn-primary green" ng-click="save()">OK</a>
+    <br /><br />
+</div>

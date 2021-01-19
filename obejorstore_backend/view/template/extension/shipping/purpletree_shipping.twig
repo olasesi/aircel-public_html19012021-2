@@ -1,0 +1,117 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+        <button type="submit" form="form-shipping" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default btn-light"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default card">
+      <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-pencil fas fa-edit"></i> {{ text_edit }}</h3>
+      </div>
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-shipping" class="form-horizontal">
+      <div class="panel-body card-body">
+          <div class="form-group row">
+            <label class="col-sm-2 control-label col-form-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="shipping_purpletree_shipping_status" id="input-status" class="form-control">
+                {% if shipping_purpletree_shipping_status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 control-label col-form-label" for="input-sort-order">{{ entry_sort_order }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="shipping_purpletree_shipping_sort_order" value="{{ shipping_purpletree_shipping_sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control" />
+            </div>
+          </div>
+      </div>
+	  <div class="well card well11">
+	  <div class="panel-heading pb-2">
+             <h4 class="panel-title card-header">{{ onlyforadminproducts }}</h4>
+           </div>
+		   <div class="p-3">
+	  <div class="form-group row">
+                          <label class="col-sm-2 control-label  col-form-label" for="input-newsletter">{{ entry_storeshipping_type }}</label>
+                          <div class="col-sm-4">
+                            <select name="shipping_purpletree_shipping_order_type" id="input-storeshipping-type" class="form-control">
+                              
+                              <option value="pts_product_wise" {% if shipping_purpletree_shipping_order_type == 'pts_product_wise' %} selected="selected" {% endif %}>{{entry_product_wise}}</option>
+                              <option value="pts_order_wise" {% if shipping_purpletree_shipping_order_type == 'pts_order_wise' %} selected="selected" {% endif %}>{{entry_order_wise}}</option>
+                             
+                            </select>
+                          </div>
+                        </div>
+		  <div class="form-group row">
+                          <label class="col-sm-2 control-label col-form-label" for="input-newsletter">{{ entry_storeshipping_charge }}</label>
+                          <div class="col-sm-4">
+                            <select name="shipping_purpletree_shipping_type" id="input-store-shipping-type" class="form-control">
+                              
+                              <option value="pts_flat_rate_shipping" onclick="show2();" {% if shipping_purpletree_shipping_type == 'pts_flat_rate_shipping' %} selected="selected" {% endif %}>{{ entry_store_flat_rate_shipping }}</option>
+							  
+                              <option value="pts_matrix_shipping" {% if shipping_purpletree_shipping_type == 'pts_matrix_shipping' %} selected="selected" {% endif %}  onclick="show1();">{{ entry_store_matrix_shipping }}</option>
+							  
+							  <option {% if shipping_purpletree_shipping_type == 'pts_flexible_shipping' %} selected="selected" {% endif %} value="pts_flexible_shipping" onclick="show2();">{{ entry_store_flexible_shipping }}</option>
+                              
+                            </select>
+                          </div>
+            </div>
+			<div class="form-group row" id="div1" class="hide">
+							<label class="col-sm-2 control-label col-form-label" for="input-storeshipping">{{ entry_storeshipping }}</label>
+							<div class="col-sm-4">
+							  <input type="text" name="shipping_purpletree_shipping_charge" value="{{ shipping_purpletree_shipping_charge }}" placeholder="{{ entry_storeshipping }}" id="input-storeshipping" class="form-control" />
+								{% if error_storecharge %}
+								<div class="text-danger">{{ error_storecharge }}</div>
+							  {% endif %}
+							</div>
+						</div>
+						</div>
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+function show1(){
+  document.getElementById('div1').style.display ='none';
+}
+function show2(){
+  document.getElementById('div1').style.display = 'block';
+}
+$(window).load(function(){
+	{% if shipping_purpletree_shipping_type == 'pts_matrix_shipping' %}
+	 document.getElementById('div1').style.display ='none';
+	 {% endif %}
+});
+</script>  
+<style>
+.well11 .form-group {
+	margin-left:0;
+	margin-right:0;
+}
+.well11 {
+	margin:19px;
+	padding:0;
+}
+</style>
+{{ footer }} 

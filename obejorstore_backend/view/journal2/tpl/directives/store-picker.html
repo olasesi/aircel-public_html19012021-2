@@ -1,0 +1,6 @@
+<div class="store-picker s-p" data-ng-show="stores.length > 1">
+    Apply to Store
+    <select ui-select2="{minimumResultsForSearch: -1}" data-ng-model="store_id" data-ng-change="storeChange()">
+        <option data-ng-repeat="store in stores" value="{{store.store_id}}">{{store.name}}</option>
+    </select>
+</div>

@@ -1,0 +1,72 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+      </ul>
+    </div>
+  </div>
+	<div class="container-fluid">
+	
+		 <div class="panel panel-default card">
+			<div class="panel-heading">
+				<h3 class="panel-title card-header"><i class="fa fa-user"></i> {{ column_seller_plan_confirmation }}</h3>
+			</div>
+	<div class="panel-body card-body">	
+	<div class="">
+		<div class="col-sm-12 well ">
+		 <form action="{{ action }}" method="post" enctype="multipart/form-data" class="col-sm-12 form-horizontal">	
+			<div class="col-sm-12  selected-plan">
+			{% if currentplan %}
+				<div class="col-sm-12 mid">
+					<div class="col-sm-12">
+					<p>{{ column_seller_name }} - <strong>{{ seller_name }}</strong></p>
+						<p>{{ heading_current_plan }} - <strong>{{ currentplan.plan_name }}</strong></p>
+						<p>{{ column_started_date }} - <strong>{{ currentplan.start_date }}</strong></p>
+						<p>{{ column_end_date }} - <strong>{{ currentplan.end_date }}</strong></p>
+						<p>{{ column_validity }} - <strong>{{ currentplan.validity }}</strong></p>
+					</div>
+				</div>
+				{% endif %}
+					{% if newplan %}
+				<div class="col-sm-12 row mid">
+					<div class="col-sm-8">
+						<p>{{ column_new_plan }} - <strong>{{ newplan.plan_name }}</strong></p>
+						<p><strong>Short description - </strong> {{ newplan.plan_short_description }}</p>
+						<p>{{ column_started_date }} - <strong>{{ newplan.start_date }}</strong></p>
+						<p>{{ column_end_date }} - <strong>{{ newplan.end_date }}</strong></p>
+						<p>{{ column_validity }} - <strong>{{ newplan.validity }}</strong></p>
+					</div>
+					
+					<div class="col-sm-4 text-right">
+						<strong>{{ subscription_price }}</strong>
+					</div>
+					
+					<div class="col-sm-12 text-right row form-group p-0">
+					{% for key,Plan in totals.plan %}
+						<div class="col-sm-11 p-0"><span>{{ Plan.title }}</span></div><div class="col-sm-1"><strong>{{ Plan.value }}</strong></div>
+							{% endfor %} 
+							</div>
+					
+					<input type="hidden" name="plan_id" value="{{ plan_id }}">
+					<input type="hidden" name="seller_id" value="{{ seller_id }}">
+					<input type="hidden" name="start_date" value="{{ start_date }}">
+					<div class="col-sm-12 text-right form-group">
+						<button type="submit"  class="btn btn-primary">{{ save_and_generate_invoice }}</button>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			</form>
+		</div>
+	</div>	
+	</div>
+</div>
+</div>
+</div>
+{{ footer }}

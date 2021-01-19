@@ -1,0 +1,100 @@
+<div class="container-fluid">
+	<div class="row">
+  		<div class="col-xs-6 col-md-4">
+    		<div class="box-heading">
+      			<h2><i class="fa fa-user"></i>&nbsp;&nbsp;{{ text_your_license }}</h2>
+    		</div>
+    		<div class="box-contents">
+			    {% if moduleData.LicensedOn is empty  %}
+                <table class="table notLicensedTable">
+                	<tr>
+                    	<td colspan="2">
+                            <div class="form-group">
+                                <label for="moduleLicense">{{ text_please_enter_the_code }}</label>
+                                <input type="text" class="licenseCodeBox form-control input-lg" placeholder="XXXXXX-XXXXXX-XXXXXX-XXXXXX-XXXXXX" name="{{ moduleName }} [LicenseCode]" id="moduleLicense" value="{% if moduleData.LicenseCode %}{{ moduleData.LicenseCode }}{% endif %}" />
+                                <br />
+                                <div class="licenseAlerts"></div>
+    			                <div class="licenseDiv"></div>
+                                <button type="button" class="btn btn-success btn-lg btnActivateLicense"><i class="fa fa-check"></i>&nbsp;{{ text_activate_license }}</button>
+                                <br /><br />
+                                <button type="button" class="btn btn-default btn-sm" onclick="window.open('http://isenselabs.com/users/purchases/')">{{ text_not_having_a_license }} &nbsp;&nbsp;<i class="fa fa-external-link"></i></button>
+                        	</div>
+                  		</td>
+                	</tr>
+              	</table>
+                <script type="text/javascript" src="//isenselabs.com/external/validate/"></script>
+    		    {% endif %} 
+    		    
+			    {% if moduleData.LicensedOn %} 
+    			<input name="cHRpbWl6YXRpb24ef4fe" type="hidden" value="{{ licenseDataBase64 }}" />
+    			<input name="OaXRyb1BhY2sgLSBDb21" type="hidden" value="{{ moduleData.LicensedOn }}" />
+    			<table class="table licensedTable">
+                    <tr>
+                    	<td>{{ text_license_holder }}</td>
+                    	<td>{{ moduleData.License.customerName }}</td>
+                    </tr>
+                	<tr>
+                		<td>{{ text_registered_domains }}</td>
+                		<td>
+                    		<ul class="registeredDomains">
+                    			{% for domain in moduleData.License.licenseDomainsUsed %}
+                        			<li><i class="fa fa-check"></i>&nbsp;{{ domain }}</li>
+                    			{% endfor %} 
+                    		</ul>
+                		</td>
+                	</tr>
+                	<tr>
+                		<td>{{ text_expires_on }}</td>
+                		<td>{{ LicenseExpireDate }}</td>
+                	</tr>
+                	<tr>
+                    	<td colspan="2" style="text-align:center;background-color:#EAF7D9;">{{ text_valid_license}} (<a href="http://isenselabs.com/users/purchases" target="_blank">{{ text_manage }}</a>)</td>
+                	</tr>
+				</table>
+    		    {% endif %} 
+            </div>
+  		</div>
+  
+		<div class="col-xs-6 col-md-8">
+    		<div class="box-heading">
+      			<h2><i class="fa fa-users"></i>&nbsp;&nbsp;{{ text_get_support }}</h2>
+    		</div>
+    		<div class="box-contents">
+                <br />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <div class="thumbnail">
+                            <img src="view/image/{{ moduleName }}/community.png">
+                            <div class="caption" style="text-align:center;padding-top:0px;">
+                                <h3>{{ text_community }}</h3>
+                                <p>{{ text_ask_our_community }}</p>
+                                <p style="padding-top: 5px;"><a href="http://isenselabs.com/forum" target="_blank" class="btn btn-lg btn-default">{{ text_browse_forums }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <div class="thumbnail">
+                            <img src="view/image/{{ moduleName }}/tickets.png">
+                            <div class="caption" style="text-align:center;padding-top:0px;">
+                                <h3>{{ text_tickets }}</h3>
+                                <p>{{ text_open_a_ticket }}</p>
+                                <p style="padding-top: 5px;"><a href="{{ supportTicketLink }}" target="_blank" class="btn btn-lg btn-default">{{ text_open_ticket_for_real}}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-4 ">
+                        <div class="thumbnail">
+                            <img alt="Pre-sale support" src="view/image/{{ moduleName}}/pre-sale.png">
+                            <div class="caption" style="text-align:center;padding-top:0px;">
+                                <h3>{{ text_pre_sale }}</h3>
+                                <p>{{ text_pre_sale_text }}</p>
+                                <p style="padding-top: 5px;"><a href="https://isenselabs.com/pages/premium-services#section-contact" target="_blank" class="btn btn-lg btn-default">{{ text_bump_the_sales }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+		
+	</div>
+</div>

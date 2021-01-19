@@ -1,0 +1,12 @@
+<div class="ckeditor">
+    <accordion  close-others="false">
+        <accordion-group data-ng-repeat="language in languages.languages">
+            <accordion-heading>
+                <div class="accordion-bar bar-level-1">
+                <img data-ng-src='{{language.image}}' title='{{language.name}}' /> {{ language.name }}
+                </div>
+            </accordion-heading>
+            <textarea ck-editor-text data-ng-model="ngModel[language.language_id]"></textarea>
+        </accordion-group>
+    </accordion>
+</div>

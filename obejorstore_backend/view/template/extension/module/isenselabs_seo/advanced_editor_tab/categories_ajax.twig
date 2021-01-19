@@ -1,0 +1,70 @@
+<br />
+<ul class="nav nav-pills nav-pills-languages" role="tablist">
+    {% for language in languages %} 
+        <li {{ language.language_id == language_id ? 'class="active"' : '' }}><a role="tab" data-toggle="tab" href="{{ action_url }}&language_id={{ language.language_id }}">
+            <img src="language/{{ language.code }}/{{ language.code }}.png" alt="{{ language.name }}" title="{{ language.name }}" />
+        </a></li> 
+    {% endfor %}
+</ul>
+<br />
+<table class="table table-striped table-editor table-editor-categories" data-type="category" data-language-id="{{ language_id }}"> 
+    <thead>
+        <tr> 
+            <th class="col-xs-2">{{ text_editor_name }}</th> 
+            <th class="col-xs-2">{{ text_editor_seo_keyword }}</th> 
+            <th class="col-xs-2">{{ text_editor_meta_title }}</th> 
+            <th class="col-xs-2">{{ text_editor_meta_description }}</th> 
+            <th class="col-xs-2">{{ text_editor_meta_keyword }}</th> 
+            <th class="col-xs-1 text-right">{{ text_show }}</th>
+            <th class="col-xs-1 text-right">{{ text_action }}</th>
+        </tr> 
+        <tr class="filter-categories filter-form" data-route="editor_categories" data-view="editor-categories"> 
+            <th><input type="text" name="filter_name" class="form-control" value="{{ filter_name }}" /></th> 
+            <th><input type="text" name="filter_keyword" class="form-control" value="{{ filter_keyword }}" /></th> 
+            <th><input type="text" name="filter_meta_title" class="form-control" value="{{ filter_meta_title }}" /></th> 
+            <th><input type="text" name="filter_meta_description" class="form-control" value="{{ filter_meta_description }}" /></th> 
+            <th><input type="text" name="filter_meta_keywords" class="form-control" value="{{ filter_meta_keywords }}" /></th> 
+            <th>
+                <select name="filter_limit" class="form-control">
+                    <option value="10" {{ filter_limit == 10 ? 'selected="selected"' : '' }}>10</option>
+                    <option value="20" {{ filter_limit == 20 ? 'selected="selected"' : '' }}>20</option>
+                    <option value="50" {{ filter_limit == 50 ? 'selected="selected"' : '' }}>50</option>
+                    <option value="100" {{ filter_limit == 100 ? 'selected="selected"' : '' }}>100</option>
+                </select>
+            </th>
+            <th class="text-right">
+                <input type="hidden" name="language_id" value="{{ language_id }}" />
+                <a onClick="filterData('.filter-categories');" class="btn btn-primary">{{ text_filter }}</a>
+            </th>
+        </tr>
+    </thead> 
+    <tbody> 
+        {% if sources|length > 0 %}   
+            {% for index, result in sources %}  
+            <tr> 
+                <th scope="row">{{ result.name }}</th> 
+                <td id="category_seo_keyword_{{ result.category_id }}" onDblClick="editField({{ result.category_id }}, 'url_alias', this);"><span class="editable">{{ result.seo_keyword }}</span></td> 
+                <td id="category_meta_title_{{ result.category_id }}" onDblClick="editField({{ result.category_id }}, 'meta_title', this);"><span class="editable">{{ result.meta_title }}</span></td> 
+                <td id="category_meta_description_{{ result.category_id }}" onDblClick="editField({{ result.category_id }}, 'meta_description', this);"><span class="editable">{{ result.meta_description }}</span></td> 
+                <td id="category_meta_keyword_{{ result.category_id }}"onDblClick="editField({{ result.category_id }}, 'meta_keyword', this);"><span class="editable">{{ result.meta_keyword }}</span></td> 
+                <td></td>
+                <td></td>
+            </tr> 
+            {% endfor %} 
+         {% else %}   
+            <tr>
+                <td colspan="9" class="text-center">{{ text_no_results }}</td>
+            </tr>
+         {% endif %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="9">
+    	        <div class="row">
+                    <div class="col-sm-6 text-left">{{ pagination }}</div>
+                    <div class="col-sm-6 text-right">{{ results }}</div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>

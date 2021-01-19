@@ -1,0 +1,85 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	 {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+			{% endfor %}
+      </ul>
+    </div>
+  </div>
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		{% if success %}
+		<div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		 {% endif %}
+		
+	 <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ column_plan }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-category">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <td class="text-left">{{ column_sl }}</td>
+                  <td class="text-left">{{ column_plan_name }}</td>
+                  <td class="text-left">{{ column_sellername }}</td>
+                  <td class="text-left">{{ column_subscription_status }}</td>
+                  <td class="text-left">{{ column_invoice_status }}</td>
+                  <td class="text-left">{{ column_start_date }}</td>
+                  <td class="text-left">{{ column_End_date }}</td>
+                  <td class="text-left">{{ column_create_date }}</td>
+                  <td class="text-right">{{ column_action }}</td>
+                </tr>    
+              </thead>
+              <tbody>
+			   {% if subscriptions %}
+             {% for subscription in subscriptions %}
+                <tr>
+                   <td class="text-left">{{  subscription.id }}</td>
+                  <td class="text-left">{{  subscription.plan_name }}</td>
+                  <td class="text-left">{{  subscription.seller_name }}</td>
+                  <td class="text-left">{{  subscription.subscription_status }}</td>
+                  <td class="text-left">{{  subscription.invoice_status }}</td>
+                  <td class="text-left">{{  subscription.start_date }}</td>
+                  <td class="text-left">{{  subscription.end_date }}</td>
+                  <td class="text-left">{{  subscription.created_date }}</td>
+				  <td> 
+					<a href="{{ subscription.add_history }}" data-toggle="tooltip" title="{{ button_Add_Payment_History }}" class="btn btn-default"><i class="fa fa-plus"></i></a>		 
+					<a href="{{ subscription.view_invoice }}"  target="_blank" data-toggle="tooltip" title="{{ button_view_invoicw }}" class="btn btn-success"><i class="fa fa-eye"></i></a>
+										 
+					</td>
+                </tr>
+				{% endfor %}
+                {% else %}
+                <tr>
+                  <td class="text-center" colspan="10">{{  text_no_results }}</td>
+                </tr>
+                 {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+         <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div> 
+      </div>
+    </div>
+     
+      
+	</div>
+</div>
+{{  footer }}

@@ -1,0 +1,168 @@
+iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+}
+
+.checkbox-td {
+    padding: 10px;
+    cursor: pointer;
+    width: 20px;
+}
+
+.checkbox-td > input {
+    cursor: pointer;
+}
+
+.button-clear-td {
+    width: 140px;
+}
+
+.iframe-container {
+    position: relative;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.iframe-container + .iframe-container {
+    border-top: 1px solid #ededed;
+}
+
+.iframe-container-small {
+    height: 336px;
+}
+
+.iframe-container-medium {
+    height: 450px;
+}
+
+.word-break {
+  word-break: break-all;
+}
+
+.lh-2 {
+  line-height: 2;
+}
+
+.nitro .modal-header .close {
+    margin: -1rem -1rem -1rem 1rem;
+}
+
+.nitro .modal-title {
+    margin-right: auto;
+}
+
+#progress-lines {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+#site-id,
+#site {
+    font-size: 14px;
+    font-family: Courier;
+}
+
+#nitropack-notification {
+    position: fixed;
+    top: 0px;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+#nitropack-notification-message {
+    padding: 10px 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    max-width: 300px;
+    text-align: center;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    cursor: default;
+}
+
+#button-configure-warmup {
+  margin-top: 6px;
+  margin-right: 10px;
+}
+
+#update-check-error-container li {
+  overflow: none;
+  word-break: break-word;
+  font-size: .8em;
+}
+
+/** START SWITCH CSS - https://www.w3schools.com/howto/howto_css_switch.asp **/
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  min-width: 60px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #28a745;
+}
+
+input:disabled + .slider {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/** END SWITCH CSS **/

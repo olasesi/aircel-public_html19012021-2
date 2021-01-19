@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+
+            <ul class="nav nav-tabs nav-link-tabs">
+                <li class="active"><a href="#tab-seo-links" data-toggle="tab">{{ text_seo_links }}</a></li>
+                <li><a href="#tab-customredirections" data-toggle="tab">{{ text_custom_url_redirects }}</a></li>
+                <li><a href="#tab-autolinks" data-toggle="tab">{{ text_auto_links }}</a></li>
+                <li><a href="#tab-canonicals" data-toggle="tab">{{ text_canonicals }}</a></li>
+				<li><a href="#tab-advanced-settings" data-toggle="tab">{{ text_advanced_settings }}</a></li>
+            </ul>
+
+            <div class="tab-content">
+               <div class="tab-pane fade in active" id="tab-seo-links">
+                    <div class="tab-seo-links">
+                        <br />
+                        <div class="loader"></div>
+                    </div>
+               </div>   
+
+               {% for tab in urlLinkingTabs %}
+               <div class="tab-pane fade" id="{{ tab.id }}">
+                   <div class="{{ tab.id }}">
+                       {{ include(tab.file) }}
+                   </div>
+               </div>
+               {% endfor %}
+               
+            </div>
+
+        </div>
+    </div>
+</div>

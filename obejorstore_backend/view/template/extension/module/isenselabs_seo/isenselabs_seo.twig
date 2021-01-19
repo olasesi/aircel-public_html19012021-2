@@ -1,0 +1,168 @@
+{{ header }}
+{{ column_left }} 
+<div id="content" class="isense_seo_module">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="storeSwitcherWidget">
+                <div class="form-group">
+                    <button type="submit" form="form-filter" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary save-changes" style="display:none;"><i class="fa fa-save"></i></button>
+                    <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default" style="display:none;"><i class="fa fa-reply"></i></a>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{ store['name'] }} {% if (store['store_id'] == '0') %} {{ " <strong>" ~ text_default ~ "</strong>" }}{% endif %}&nbsp;<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">{{ text_stores }}</li>
+                        {% for st in stores %} 
+                            <li class="{{ st['store_id'] == storeId ? 'active' : '' }}"><a href="index.php?route={{ modulePath }}&store_id={{ st['store_id'] }}&{{ token_string }}={{ token }}">{{ st['name'] }}</a></li>
+                        {% endfor %} 
+                    </ul>
+                </div>
+            </div>
+
+            <h1>{{ heading_title }} </h1>
+
+            <ul class="breadcrumb">
+            {% for breadcrumb in breadcrumbs %} 
+                <li><a href="{{ breadcrumb.href }} ">{{ breadcrumb.text }} </a></li>
+            {% endfor %} 
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        {{ unlicensedHtml }}    
+
+        {% if error_warning %} 
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }} 
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %} 
+
+        {% if success %} 
+        <div class="alert alert-success autoSlideUp"><i class="fa fa-check-circle"></i> {{ success }} 
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        <script>$('.autoSlideUp').delay(3000).fadeOut(600, function(){ $(this).show().css({'visibility':'hidden'}); }).slideUp(600);</script>
+        {% endif %} 
+
+        <div class="row row-main">
+            <form action="{{ action }} " method="post" enctype="multipart/form-data" id="form-filter" class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                       <ul class="nav nav-tabs mainMenuTabs" role="tablist">
+                          <li class="active">
+                              <a role="tab" data-toggle="tab" href="#home-tab">{{ tab_home }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#urls-linking-tab">{{ tab_urls_linking }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#content-tab">{{ tab_content }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#advanced-editor-tab">{{ tab_advanced_editor }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#social-seo-tab">{{ tab_social_seo }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#structured-data-tab">{{ tab_structured_data }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#image-names-tab">{{ tab_image_names }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#crawler-tab">{{ tab_page_crawler }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#analysis-tab">{{ tab_seo_analysis }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#missing-pages-tab">{{ text_404_manager }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#file-editor-tab">{{ tab_file_editor }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#feed-tab">{{ tab_feed }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#faq-tab">{{ tab_what_is_seo }} </a>
+                          </li>
+                          <li>
+                              <a role="tab" data-toggle="tab" href="#isense-support">{{ tab_support }} </a>
+                          </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="home-tab" role="tabpanel" class="tab-pane seo-home-tab seo-tabs-main fade in active">
+                                <br />
+                                <div class="loader"></div>
+                            </div>
+                            {% for tab in moduleTabs %}
+                            <div id="{{ tab.id }}" role="tabpanel" class="tab-pane seo-tabs-main fade">
+                              {{ include(tab.file) }}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div><!--.panel-->
+            </form> 
+
+        </div>
+    </div>
+  
+</div>
+
+<script type="text/javascript">
+var store                                   = {{ store|json_encode|raw }};
+var storeId                                 = '{{ store.store_id }}';
+var domain                                  = '{{ hostname_base64 }}';
+var domainraw                               = '{{ hostname }}';
+var timenow                                 = '{{ time_now }}';
+var MID                                     = 'VBHAVAKDXS';
+var token                                   = '{{ token }}';
+var token_string                            = '{{ token_string }}';
+var moduleName                              = '{{ moduleName }}';
+var modulePath                              = '{{ modulePath }}';
+var fixIssuesAjaxURL                        = 'index.php?route={{ modulePath }}/fix_seo_issues&{{ token_string }}={{ token }}&store_id={{ store.store_id }}'
+var saveSettingsAjaxURL                     = 'index.php?route={{ modulePath }}/save_settings&{{ token_string }}={{ token }}&store_id={{ store.store_id }}';
+var languages                               = {{ languages|json_encode|raw }};
+var defaultLanguageId                       = '{{ config_language_id }}';
+var text_running_tests                      = '{{ text_running_tests }}';
+var text_loading_please_wait                = '{{ text_loading_please_wait }}';
+var text_performing_operation               = '{{ text_performing_operation }}';
+var text_unexpected_error_id                = '{{ text_unexpected_error_id }}';
+var text_delete                             = '{{ text_delete }}';
+var text_delete_confirmation                = '{{ text_delete_confirmation }}';
+var text_delete_a_confirmation              = '{{ text_delete_a_confirmation }}';
+var text_add_custom_url                     = '{{ text_add_custom_url }}';
+var text_opencart_route                     = '{{ text_opencart_route }}';
+var text_cancel                             = '{{ text_cancel }}';
+var text_submit                             = '{{ text_submit }}';
+var text_confirm                            = '{{ text_confirm }}';
+var text_url_address                        = '{{ text_url_address }}';
+var text_fields_filled_in_helper            = '{{ text_fields_filled_in_helper }}';
+var text_all_fields_filled_in_helper        = '{{ text_all_fields_filled_in_helper }}';
+var text_add_new_autolink                   = '{{ text_add_new_autolink }}';
+var text_edit_autolink                      = '{{ text_edit_autolink }}';
+var text_keyword_field                      = '{{ text_keyword_field }}';
+var text_edit_customurl                     = '{{ text_edit_customurl }}';
+var text_complete                           = '{{ text_complete }}';
+var text_error                              = '{{ text_error }}';
+var text_show_more                          = '{{ text_show_more }}';
+var text_show_less                          = '{{ text_show_less }}';
+var text_confirm_action                     = '{{ text_confirm_action }}';
+var text_confirm_image_rename               = '{{ text_confirm_image_rename }}';
+var text_crawler_error_heading              = '{{ text_crawler_error_heading }}';
+var text_crawler_url_error                  = '{{ text_crawler_url_error }}';
+var text_loading_data                       = '{{ text_loading_data }}';
+var text_confirm_clear_analysis             = '{{ text_confirm_clear_analysis }}';
+var text_empty_field_alert                  = '{{ text_empty_field_alert }}';
+var text_remove_selected_row                = '{{ text_remove_selected_row }}'; 
+var text_old_address                        = '{{ text_old_address }}'; 
+var text_new_address                        = '{{ text_new_address }}'; 
+var text_add_new_redirect                   = '{{ text_add_new_redirect }}'; 
+</script>
+
+{{ footer }} 

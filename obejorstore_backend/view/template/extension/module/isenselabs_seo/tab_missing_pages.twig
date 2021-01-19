@@ -1,0 +1,20 @@
+<div class="container-fluid">
+	<div class="row">
+  		<div class="col-xs-12 col-md-12">
+            <ul class="nav nav-tabs nav-missing-pages-tabs">
+                <li class="active"><a href="#tab-missing-pages" data-toggle="tab">{{ text_detected_missing_pages }} </a></li>
+                <li><a href="#tab-redirects" data-toggle="tab">{{ text_404_redirects }} </a></li>
+            </ul>
+            
+            <div class="tab-content">
+                {% for tab in missingPagesTabs %}
+                <div id="{{ tab.id }}" role="tabpanel" class="tab-pane fade {% if loop.first %}in active{% endif %}">
+                  {{ include(tab.file) }}
+                </div>
+                {% endfor %}
+            </div>
+            
+  		</div>
+    </div>
+</div>
+

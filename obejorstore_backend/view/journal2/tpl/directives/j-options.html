@@ -1,0 +1,48 @@
+<ul class="module-create-options">
+    <li data-ng-repeat="setting in ngModel">
+
+        <span class="module-create-title">{{setting.setting.name}}</span>
+        <span class="module-create-option" ng-switch on="setting.setting.type">
+            <span ng-switch-when="j-opt-color">
+                <j-opt-color data-ng-model="setting.setting"></j-opt-color>
+            </span>
+            <span ng-switch-when="j-opt-color-gradient">
+                <j-opt-color-gradient data-ng-model="setting.setting"></j-opt-color-gradient>
+            </span>
+            <span ng-switch-when="j-opt-image">
+                <j-opt-image data-ng-model="setting.setting"></j-opt-image>
+            </span>
+            <span ng-switch-when="j-opt-select">
+                <j-opt-select data-ng-model="setting.setting"></j-opt-select>
+            </span>
+            <span ng-switch-when="j-opt-text">
+                <j-opt-text data-ng-model="setting.setting"></j-opt-text>
+            </span>
+            <span ng-switch-when="j-opt-textarea">
+                <j-opt-textarea data-ng-model="setting.setting"></j-opt-textarea>
+            </span>
+            <span ng-switch-when="j-opt-text-lang">
+                <j-opt-text-lang data-ng-model="setting.setting"></j-opt-text-lang>
+            </span>
+            <span ng-switch-when="j-opt-font">
+                <j-opt-font data-ng-model="setting.setting"></j-opt-font>
+            </span>
+            <span ng-switch-when="j-opt-icon">
+                <j-opt-icon data-ng-model="setting.setting"></j-opt-icon>
+            </span>
+            <span ng-switch-when="j-opt-slider">
+                <j-opt-slider data-ng-model="setting.setting"></j-opt-slider>
+            </span>
+            <span ng-switch-when="j-opt-items-per-row">
+                <j-opt-items-per-row data-ng-model="setting.setting"></j-opt-items-per-row>
+            </span>
+            <span ng-switch-when="j-opt-background">
+                <j-opt-background data-ng-model="setting.setting"></j-opt-background>
+            </span>
+            <span ng-switch-when="j-opt-border">
+                <j-opt-border data-ng-model="setting.setting"></j-opt-border>
+            </span>
+            <span ng-switch-default>{{setting.setting.type}} not implemented!</span>
+        </span>
+    </li>
+</ul>

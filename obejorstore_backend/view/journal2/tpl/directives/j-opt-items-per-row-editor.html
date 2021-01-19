@@ -1,0 +1,161 @@
+<div class="modal-header">
+    <h3>Items per Row</h3>
+    <a class="reset-btn" ng-click="reset()">Set all to 1</a>
+</div>
+<style>
+    .modal-header .reset-btn {
+        color: white;
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        cursor: pointer;
+    }
+    .modal{
+        width: 570px;
+        margin-left: -285px;
+    }
+    .modal.fade.in{
+        top: 50%;
+        margin-top: -300px;
+    }
+    .modal-body {
+        max-height: 450px !important;
+        overflow: auto;
+    }
+    .modal-body.no-columns{
+        overflow: visible;
+    }
+    h3 > span{
+        text-transform: none !important;
+        font-size: 14px;
+        float: right;
+        font-weight: normal;
+    }
+    .modal-footer{
+        padding-bottom: 0;
+    }
+
+    .modal-body > div {
+        background-color: #f4f4f4;
+        border-bottom: 1px solid #e4e4e4;
+        border-top: 1px solid #fafafa;
+    }
+    .modal-body > div > span{
+        display: block;
+        float: left;
+        background-color: #e4e4e4;
+        line-height: 45px;
+        text-align: right;
+        position: relative;
+        padding-right: 12px;
+    }
+
+    .modal-body > div > span:first-child {
+        width: 100px !important;
+    }
+
+    button{
+        margin: 0 !important;
+        height: 40px !important;
+    }
+
+    .j-opt-slider {
+        display: inline-block;
+    }
+
+    small{
+        position: absolute;
+        z-index: 9;
+        right: 12px;
+        top: 12px;
+        font-size: 10px;
+        opacity: .6;
+    }
+
+    .items-editor .slider-value{
+        min-width: 12px;
+        right: -40px;
+    }
+    .modal-header{
+        border-bottom: 0;
+    }
+
+
+</style>
+<div class="modal-body items-editor" data-ng-class="{ 'no-columns' : hide_columns, 'no-phone' : hide_phone }">
+    <h3 data-ng-hide="hide_columns" style="clear: both">No Side Columns</h3>
+
+    <div class="popup-option first-ie">
+        <span>Large Desktop</span>
+        <j-opt-slider data-ng-model="ngModel.large_desktop"></j-opt-slider>
+        <i><b>Larger than</b> 1220 <b class="row-info hint--top" data-hint="Only applies if site width is larger than 1220"> i</b></i>
+    </div>
+
+    <div class="popup-option">
+        <span>Desktop</span>
+        <j-opt-slider data-ng-model="ngModel.desktop"></j-opt-slider>
+        <i>1024 <b>to</b> 1220</i>
+    </div>
+
+    <div class="popup-option">
+        <span>Tablet</span>
+        <j-opt-slider data-ng-model="ngModel.tablet"></j-opt-slider>
+        <i>768 <b>to</b> 1024</i>
+    </div>
+    <div class="popup-option" data-ng-hide="hide_phone">
+        <span>Large Phone</span>
+        <j-opt-slider data-ng-model="ngModel.mobile1"></j-opt-slider>
+        <i>480 <b>to</b> 768</i>
+    </div>
+
+    <div class="popup-option" data-ng-hide="hide_phone" style="margin-top: 0">
+        <span>Phone</span>
+        <j-opt-slider data-ng-model="ngModel.mobile"></j-opt-slider>
+        <i>320 <b>to</b> 480</i>
+    </div>
+
+
+
+    <h3 data-ng-hide="hide_columns" style="clear: both">1 Side Column</h3>
+    <div class="popup-option first-ie" data-ng-hide="hide_columns">
+        <span>Large Desktop</span>
+        <j-opt-slider data-ng-model="ngModel.large_desktop1"></j-opt-slider>
+        <i><b>Larger than</b> 1220 <b class="row-info hint--top" data-hint="Only applies if site width is larger than 1220"> i</b></i>
+    </div>
+
+    <div class="popup-option" data-ng-hide="hide_columns">
+        <span>Desktop</span>
+        <j-opt-slider data-ng-model="ngModel.desktop1"></j-opt-slider>
+        <i>1024 <b>to</b> 1220</i>
+    </div>
+
+    <div class="popup-option" data-ng-hide="hide_columns" style="margin-top: 0">
+        <span>Tablet</span>
+        <j-opt-slider data-ng-model="ngModel.tablet1"></j-opt-slider>
+        <i>768 <b> ></b> 1024</i>
+    </div>
+
+
+    <h3 data-ng-hide="hide_columns" style="clear: both">2 Side Columns</h3>
+    <div class="popup-option first-ie" data-ng-hide="hide_columns">
+        <span>Large Desktop</span>
+        <j-opt-slider data-ng-model="ngModel.large_desktop2"></j-opt-slider>
+        <i><b>Larger than</b> 1220 <b class="row-info hint--top" data-hint="Only applies if site width is larger than 1220"> i</b></i>
+    </div>
+    <div class="popup-option" data-ng-hide="hide_columns">
+        <span>Desktop</span>
+        <j-opt-slider data-ng-model="ngModel.desktop2"></j-opt-slider>
+        <i>1024 <b>to</b> 1220</i>
+    </div>
+
+    <div class="popup-option" data-ng-hide="hide_columns" style="margin-top: 0">
+        <span>Tablet</span>
+        <j-opt-slider data-ng-model="ngModel.tablet2"></j-opt-slider>
+        <i>768 <b>to</b> 1024</i>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary green" ng-click="save()">OK</button>
+    <br /><br />
+</div>

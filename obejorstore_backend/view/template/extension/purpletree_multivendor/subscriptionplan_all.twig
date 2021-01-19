@@ -1,0 +1,161 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+        <a href="{{ add }}" data-toggle="tooltip" title="{{ button_assign_new_plan }}" class="btn btn-primary"></i>{{ button_assign_new_plan }}</a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	 {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+	  {% endfor %}
+      </ul>
+    </div>
+  </div>
+<div class="container-fluid">
+	{% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+  {% endif %}
+	{% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i>{{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+		 <div class="panel panel-default card">
+			<div class="panel-heading">
+				<h3 class="panel-title card-header"><i class="fa fa-user"></i>{{ text_list_Seller_Plan_View }}</h3>
+			</div>
+			<div class="panel-body card-body">
+				<div class="well-xs" style="background: #f3f3f3;margin-bottom: 15px;padding: 1px 15px;">
+						<form name="subscription_status" method="POST" id="subscription_status" >
+					<div class="row">
+						
+							<div class="col-sm-12 p-0" style="padding:8px 10px;border:1px solid #ddd">
+								<h5 class="card-header"><b>{{ update_subscription_status }}</b></h5>
+							</div>
+								<div class="col-sm-12 row form-group update_subscription" style="">
+									<div class="col-sm-3 p-9" style="margin-top:6px;">
+										<label class="col-form-label"> {{ update_subscription_status }}</label>
+									</div>
+									<div class="col-sm-4" style="margin-top:13px;">
+									{% if subscription_status==1 %}
+									{% set statuss=text_enabled_all_products %}
+									{% else %}
+									{% set statuss=text_disabled_all_products %}
+									{% endif %}
+										<input type="checkbox" name="subscription_disable" value="{{ subscription_status }}" id="status_value" >
+										<label id="change_status" class="col-form-label" for="status_value">
+											{{ statuss }}
+										</label>
+									</div>									
+									<div class="col-sm-2 p-9 d-flex align-items-center">
+										<select class="form-control" name="subscription_status" id="status" onchange="changeStatus()" >
+											<option {% if subscription_status %} selected="selected"{% endif %} id="subscribenabled" value="1" > <label for="subscribenabled">{{ column_Enabled }}</label></option>
+											
+											<option {% if not subscription_status %} selected="selected" {% endif %} id="subscribdisabled"  value="0"> <label for="subscribdisabled">{{ column_Disabled }}</label></option>
+										</select>
+									</div>
+									<div class="col-sm-3 text-left" style="margin-top: 8px;">
+										<button type="submit" name="" class="btn btn-primary">{{ button_update }}</button>
+									</div>
+								</div>
+					</div>
+						</form>
+				</div>
+				<div class=" well card mb-3 p-3 well-bg-w" style="padding: 0px 14px !important;">
+
+					<div class="row">
+						<div class="col-sm-12 p-0" style="padding:8px 10px;border:1px solid #ddd;margin-bottom:10px">
+								<h5 class="card-header"><b>{{ subscription_details }}</b></h5>
+							</div>
+							{% if current_plan  %}
+							{% if current_plan.seller_name %}
+								<div class="col-sm-8">
+									<p><strong>{{ column_seller_name }}: </strong>{{ current_plan.seller_name }}</p>
+									<p><strong>{{ column_allowed_products }}: </strong>{{ current_plan.used_products }}/{{ current_plan.no_of_product }} </p>
+									
+									<p><strong>{{ text_category_featured_products }} </strong>{{ current_plan.total_category_featured_product }}/{{ current_plan.no_of_category_featured_product }}</p>
+									
+								</div>
+								<div class="col-sm-4">
+									<p><strong>{{ column_subscription_status }} </strong>{{ subscriptions_status }}
+								<p>
+								<strong>{{ text_featured_products }} </strong>{{ current_plan.total_featured_product }}/{{ current_plan.no_of_featured_product }}</p>
+								 								
+								</div>
+								{% endif %}
+							{% endif %}
+					</div>
+				</div>
+				<div class="panel-heading">
+				<h3 class="panel-title card-header"><i class="fa fa-list"></i>{{ text_subscription_plans }}</h3>
+			</div>
+						<div class=" table-responsive">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<td>{{ column_sl }}</td>
+										<td>{{ column_plan }}</td>
+										<td>{{ column_status }}</td>
+										<td>{{ column_invoice_status }}</td>
+										<td>{{ column_Start_date }}</td>
+										<td>{{ column_End_date }}</td>
+										<td>{{ column_action }}</td>
+									</tr>
+								</thead>
+								<tbody>
+									{% if currentPlans %}
+										{% set i=1 %}
+									{% for key,result in currentPlans %}
+									<tr>
+										<td>{{ i }}</td>
+										<td>{{ result.plan_name }}</td>
+										<td>{{ result.status }}</td>
+										<td>{{ result.invoice_status }}</td>
+										<td>{{ result.start_date }}</td>
+										<td>{{ result.end_date }}</td>
+										<td> 										 
+					<a href="{{ result.view_plan }}" data-toggle="tooltip" title="{{ button_view_invoicw }}" class="btn btn-success"><i class="fa fa-eye"></i></a>
+					<a href="{{ result.edit_plan }}" data-toggle="tooltip" title="{{ button_renewplan }}" class="btn btn-success"><i class="fa fa-pencil fas fa-edit"></i></a>
+						{% if result.activeButton == 1 %}
+					<a href="{{ result.active_plan }}" data-toggle="tooltip" title="{{ button_renewplan }}" class="btn btn-success"><i class="fa fa-toggle-on fas fa-toggle-on"></i></a>
+						{% endif %}
+										 
+										</td>
+									</tr>
+									{% set i=i+1 %}
+									{% endfor %}
+									{% else %}
+									 <tr>
+                  <td class="text-center" colspan="6">{{ column_No_Records_Found }}</td>
+                </tr>
+									{% endif %}
+								</tbody>
+							</table>
+						</div>
+					  <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+				</div>
+			</div>
+		</div>
+    </div>
+{{ footer }}
+<script>
+
+function changeStatus() {
+    var x = document.getElementById("status").value;
+	var y="Disable";
+	if(x==1){
+		var y="Enable";
+		}
+    document.getElementById("change_status").innerHTML = y +" all products";
+    document.getElementById("status_value").value = x;
+	
+}
+</script>

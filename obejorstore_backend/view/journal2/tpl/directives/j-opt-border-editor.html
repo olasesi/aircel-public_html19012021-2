@@ -1,0 +1,139 @@
+<div class="modal-header">
+    <h3>{{title}}</h3>
+    <a class="reset-btn" ng-click="reset()">Reset</a>
+</div>
+<style>
+    .modal-header .reset-btn {
+        color: white;
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        cursor: pointer;
+    }
+    .modal-body {
+        max-height: 450px !important;
+    }
+
+    .modal-body > div {
+        margin-top: 20px;
+    }
+
+    .modal-body > div > span:first-child {
+        width: 200px !important;
+        display: inline-block;
+    }
+
+    .img-select a {
+        float: none;
+    }
+
+    button{
+        margin: 0 !important;
+        height: 40px !important;
+    }
+
+    .popup-option {
+        display: block;
+    }
+    .modal-footer{
+        padding-bottom: 0;
+    }
+
+    .popup-option div input{
+        max-width: 25px !important;
+        text-align: center;
+        position: relative;
+        margin-bottom: 0 !important;
+    }
+
+    .oc2 .modal{
+        top: 50%;
+        margin-top: -172px;;
+    }
+    .oc2 .popup-option div input{
+        max-width: 30px !important;
+    }
+
+</style>
+<div class="modal-body border-editor">
+
+    <div class="border-width" data-ng-show="editor != 'hide-style'">
+        <div class="b-name">Border Width</div>
+        <div class="popup-option b-all">
+            <span>ALL</span>
+            <j-opt-text data-ng-model="ngModel.border"></j-opt-text>
+        </div>
+        <div class="popup-option b-side">
+            <span>Top</span>
+            <j-opt-text data-ng-model="ngModel.border_top"></j-opt-text>
+        </div>
+        <div class="popup-option b-side">
+            <span>Right</span>
+            <j-opt-text data-ng-model="ngModel.border_right"></j-opt-text>
+        </div>
+        <div class="popup-option b-side">
+            <span>Bottom</span>
+            <j-opt-text data-ng-model="ngModel.border_bottom"></j-opt-text>
+        </div>
+        <div class="popup-option b-side">
+            <span>Left</span>
+            <j-opt-text data-ng-model="ngModel.border_left"></j-opt-text>
+        </div>
+    </div>
+    <p class="clearfix"></p>
+
+    <div class="border-style"  data-ng-show="editor != 'hide-style'">
+        <div class="b-name">Border Style</div>
+        <div class="popup-option b-style">
+            <switch data-ng-model="ngModel.border_type">
+                <switch-option key="solid">Solid</switch-option>
+                <switch-option key="dashed">Dashed</switch-option>
+                <switch-option key="dotted">Dotted</switch-option>
+            </switch>
+        </div>
+    </div>
+    <p class="clearfix"></p>
+
+    <div class="border-color"  data-ng-show="editor != 'hide-style'">
+        <div class="b-name">Border Color</div>
+        <div class="popup-option b-color">
+            <j-opt-color data-ng-model="ngModel.border_color"></j-opt-color>
+        </div>
+    </div>
+    <p class="clearfix"></p>
+
+    <div class="border-radius" data-ng-show="editor != 'hide-radius'">
+        <div class="b-name">Radius</div>
+        <div class="popup-option" data-ng-show="editor != 'hide-radius'">
+            <span>ALL</span>
+            <j-opt-text data-ng-model="ngModel.border_radius"></j-opt-text>
+        </div>
+        <div class="popup-option" data-ng-show="editor != 'hide-radius'">
+            <span>TL</span>
+            <j-opt-text data-ng-model="ngModel.border_radius_top"></j-opt-text>
+        </div>
+        <div class="popup-option" data-ng-show="editor != 'hide-radius'">
+            <span>TR</span>
+            <j-opt-text data-ng-model="ngModel.border_radius_right"></j-opt-text>
+        </div>
+        <div class="popup-option" data-ng-show="editor != 'hide-radius'">
+            <span>BL</span>
+            <j-opt-text data-ng-model="ngModel.border_radius_left"></j-opt-text>
+        </div>
+        <div class="popup-option" data-ng-show="editor != 'hide-radius'">
+            <span>BR</span>
+            <j-opt-text data-ng-model="ngModel.border_radius_bottom"></j-opt-text>
+        </div>
+        <div class="popup-option b-radius">
+            <switch data-ng-model="ngModel.border_radius_unit">
+                <switch-option key="px">px</switch-option>
+                <switch-option key="%">%</switch-option>
+            </switch>
+        </div>
+        <p class="clearfix"></p>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-primary green" ng-click="save()">OK</a>
+    <br /><br />
+</div>

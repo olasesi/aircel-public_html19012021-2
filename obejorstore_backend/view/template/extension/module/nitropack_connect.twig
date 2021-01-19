@@ -1,0 +1,112 @@
+{{ header }}
+{{ column_left }}
+<div id="content" class="nitro">
+    <div class="container-fluid bg-light p-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-sm-12 col-lg-4">
+                {% if error %}
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+                    <i class="fa fa-exclamation-circle"></i> {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+                    <i class="fa fa-check"></i> {{ success }}
+                </div>
+                {% endif %}
+                <div class="card">
+                    <h2 class="text-center p-3">
+                    <div class="p-1">
+                        <img src="view/image/vendor/nitropackio/logo.png" id="nitropack-logo" alt="{{ heading_title }}" />
+                    </div>
+                    <div class="p-1">
+                        <span class="opacity-0-9">{{ text_nitropack }}</span> <span class="opacity-0-2">{{ text_io }}</span>
+                    </div>
+                    </h2>
+                    <div class="card-body card-welcome">
+                        <div class="alert alert-light bg-light alert-welcome">
+                            <h4 class="text-center">{{ info_connect_welcome }}</h4>
+                            <hr>
+                            <p>
+                                {{ info_connect_register_info }}
+                            </p>
+                            <p>
+                                {{ info_connect_credentials_info }}
+                            </p>
+                        </div>
+                        <form method="POST" action="{{ connect }}" enctype="multipart/form-data" id="connect-form">
+                            <div class="form-group">
+                                <label for="select-store">{{ entry_store }}</label>
+                                <div>
+                                    <select id="select-store" class="form-control" name="store_id">
+                                        {% for store in stores %}
+                                        <option value="{{ store.store_id }}" {{ store.current ? 'selected' : '' }}>{{ store.name }} - {{ store.url }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if error_store_id %}
+                                    <div class="text-danger">{{ error_store_id }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-site-id">
+                                    {{ entry_site_id }}
+                                </label>
+                                <div>
+                                    <input type="text" name="site_id" value="{{ site_id }}" placeholder="{{ placeholder_site_id }}" id="input-site-id" class="form-control" autocomplete="new-password" />
+                                    {% if error_site_id %}
+                                    <div class="text-danger">{{ error_site_id }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-site-secret">
+                                    {{ entry_site_secret }}
+                                </label>
+                                <div>
+                                    <div class="input-group">
+                                        <input type="password" name="site_secret" value="{{ site_secret }}" placeholder="{{ placeholder_site_secret }}" id="input-site-secret" class="form-control" data-toggle-password autocomplete="new-password" />
+                                        <div class="input-group-append">
+                                            <span class="btn btn-outline-secondary" id="toggle-password">
+                                                <i class="fa fa-eye"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {% if error_site_secret %}
+                                    <div class="text-danger">{{ error_site_secret }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="text-center pb-5 pt-3">
+                        <button class="btn btn-primary btn-lg" type="submit" form="connect-form" data-loading-text="{{ text_connecting }}">{{ button_connect }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fb-chat" data-toggle="tooltip" title="{{ button_chat }}">
+        <a href="{{ messenger }}" target="_blank">
+            <svg width="60px" height="60px" viewBox="0 0 60 60">
+                <svg x="0" y="0" width="60px" height="60px">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g>
+                            <circle fill="#007bff" cx="30" cy="30" r="30"></circle>
+                            <svg x="10" y="10">
+                                <g transform="translate(0.000000, -10.000000)" fill="#FFFFFF">
+                                    <g id="logo" transform="translate(0.000000, 10.000000)">
+                                        <path fill="#fff" d="M20,0 C31.2666,0 40,8.2528 40,19.4 C40,30.5472 31.2666,38.8 20,38.8 C17.9763,38.8 16.0348,38.5327 14.2106,38.0311 C13.856,37.9335 13.4789,37.9612 13.1424,38.1098 L9.1727,39.8621 C8.1343,40.3205 6.9621,39.5819 6.9273,38.4474 L6.8184,34.8894 C6.805,34.4513 6.6078,34.0414 6.2811,33.7492 C2.3896,30.2691 0,25.2307 0,19.4 C0,8.2528 8.7334,0 20,0 Z M7.99009,25.07344 C7.42629,25.96794 8.52579,26.97594 9.36809,26.33674 L15.67879,21.54734 C16.10569,21.22334 16.69559,21.22164 17.12429,21.54314 L21.79709,25.04774 C23.19919,26.09944 25.20039,25.73014 26.13499,24.24744 L32.00999,14.92654 C32.57369,14.03204 31.47419,13.02404 30.63189,13.66324 L24.32119,18.45264 C23.89429,18.77664 23.30439,18.77834 22.87569,18.45674 L18.20299,14.95224 C16.80079,13.90064 14.79959,14.26984 13.86509,15.75264 L7.99009,25.07344 Z"></path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </g>
+                    </g>
+                </svg>
+            </svg>
+        </a>
+    </div>
+</div>
+{{ footer }}

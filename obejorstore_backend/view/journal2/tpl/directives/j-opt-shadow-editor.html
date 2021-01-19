@@ -1,0 +1,97 @@
+<div class="modal-header">
+    <h3>{{title}}</h3>
+    <a class="reset-btn" ng-click="reset()">Reset</a>
+</div>
+<style>
+    .modal-header .reset-btn {
+        color: white;
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        cursor: pointer;
+    }
+    .modal-body {
+        max-height: 450px !important;
+    }
+
+    .modal-body > div {
+        margin-top: 20px;
+    }
+
+    .modal-body > div > span:first-child {
+        width: 200px !important;
+        display: inline-block;
+    }
+
+    .img-select a {
+        float: none;
+    }
+
+    button{
+        margin: 0 !important;
+        height: 40px !important;
+    }
+
+    .popup-option {
+        display: block;
+    }
+    .modal-footer{
+        padding-bottom: 0;
+    }
+
+    .popup-option div input{
+        max-width: 25px !important;
+        text-align: center;
+        position: relative;
+        margin-bottom: 0 !important;
+    }
+
+    .oc2 .modal{
+        top: 50%;
+        margin-top: -172px;;
+    }
+    .oc2 .popup-option div input{
+        max-width: 30px !important;
+    }
+    .b-radius{
+        position: absolute;
+    }
+
+</style>
+<div class="modal-body border-editor">
+
+    <div class="shadow-width">
+        <div class="b-name">Shadow</div>
+        <div class="popup-option b-all">
+            <span>X Offset</span>
+            <j-opt-text data-ng-model="ngModel.x_offset"></j-opt-text>
+        </div>
+        <div class="popup-option b-side">
+            <span>Y Offset</span>
+            <j-opt-text data-ng-model="ngModel.y_offset"></j-opt-text>
+        </div>
+        <div class="popup-option b-side">
+            <span>Blur</span>
+            <j-opt-text data-ng-model="ngModel.blur"></j-opt-text>
+        </div>
+        <div class="popup-option b-side">
+            <span>Spread</span>
+            <j-opt-text data-ng-model="ngModel.spread"></j-opt-text>
+        </div>
+        <div class="popup-option b-side">
+            <span>Color</span>
+            <j-opt-color data-ng-model="ngModel.color"></j-opt-color>
+        </div>
+        <div class="popup-option b-radius">
+            <span>Inner Shadow</span>
+            <switch data-ng-model="ngModel.inner_shadow">
+                <switch-option key="1">ON</switch-option>
+                <switch-option key="0">OFF</switch-option>
+            </switch>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-primary green" ng-click="save()">OK</a>
+    <br /><br />
+</div>

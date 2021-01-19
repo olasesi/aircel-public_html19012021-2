@@ -1,0 +1,99 @@
+{{ header }} {{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+	{% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+   {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="" method="post" enctype="multipart/form-data" id="form-review" class="form-horizontal">
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-text">{{ text_message }}</label>
+            <div class="col-sm-10">
+              <textarea name="message" cols="60" rows="8" placeholder="{{ text_message }}" id="input-text" class="form-control"></textarea>
+			  <input type="hidden" name="seller_id" value="{{ seller_id }}" >
+			  <input type="hidden" name="sendtoall" value="{{ sendtoall }}" >
+			  {% if error_text %}
+              <div class="text-danger">{{ error_text }}</div>
+              {% endif %}
+            </div>
+          </div>
+		  <div class="pull-right">
+            <button type="submit" form="form-review" data-toggle="tooltip" title="{{ button_send }}" class="btn btn-primary">{{ text_send }}</button>
+          </div>
+        </form>
+      </div>
+	  {% if not sendtoall %}
+	  <div class="table-responsive">
+	    <table class="table table-bordered table-hover">
+           <thead>
+                <tr>
+                 
+                  <td class="text-left">{{ text_message }}</td>
+                
+                </tr>
+              </thead>
+              <tbody>
+			  {% for key,value in seller_message %}
+               <tr class="pts-tr-hover-none">
+			     {% if not value.contact_from==1 %}
+                  <td class="pts-text-right pts-chat-admin" >{{ value.message }}."<br>".{{ value.created_at }}</td>
+			   {% else %}
+			   <td class="pts-text-right pts-chat-seller" >{{ value.message }}."<br>".{{ value.created_at }}</td>
+			  {% endif %}
+                </tr>
+			  {% endfor %}
+              </tbody>
+            </table>
+		</div>
+	{% endif %}
+    </div>
+	<div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+  </div>
+</div>
+<style>
+.pts-chat-seller{
+	border: 1px solid #cfe0ef;
+    border-radius: 20px !important;
+    background: white;
+    max-width: 50%;
+    padding: 9px 18px!important;
+    margin-right: 10px;
+    float: right;
+    margin-bottom: 5px;
+}
+.pts-chat-admin{
+	border: none;
+    border-radius: 20px !important;
+    background: aliceblue;
+    float: left;
+    margin-bottom: 5px;
+    max-width: 50%;
+    padding: 9px 18px!important;
+    margin-left: 10px;
+}
+.pts-tr-hover-none:hover{
+	background:transparent !important
+}
+</style>
+{{ footer }}

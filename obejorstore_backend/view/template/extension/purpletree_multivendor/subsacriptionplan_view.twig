@@ -1,0 +1,98 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+  {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+	{% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+		 <div class="panel panel-default card">
+			<div class="panel-body card-body">
+				<div class="well-xs" style="background: #f3f3f3;margin-bottom: 15px;padding: 
+				<div class="panel-heading">
+				<h3 class="panel-title card-header"><i class="fa fa-list"></i>{{ text_seller_plan_history }}</h3>
+			</div>
+						<div class=" table-responsive">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<td>{{ column_sl }}</td>
+										<td>{{ column_plan }}</td>
+										<td>{{ column_reminder }}</td>
+										<td>{{ column_status }}</td>
+										<td>{{ column_invoice_status }}</td>
+										<td>{{ column_Start_date }}</td>
+										<td>{{ column_End_date }}</td>
+										<td>{{ column_Created_Date }}</td>
+										<td>{{ column_action }}</td>
+									</tr>
+								</thead>
+								<tbody>
+									{% if subscriptions %}
+										{% set i=1 %}
+									{% for subscription in subscriptions %}
+									
+									
+									<tr>
+										<td>{{ i }}</td>
+										<td>{{ subscription.plan_name }}</td>
+										<td>{{ subscription.reminder }}</td>
+										<td>{{ subscription.status }}</td>
+										<td>{{ subscription.invoice_status }}</td>
+										<td>{{ subscription.start_date }}</td>
+										<td>{{ subscription.end_date }}</td>
+										<td>{{ subscription.created_date }}</td>
+										<td> 
+										 <a href="{{ subscription.add_history }}" data-toggle="tooltip" title="{{button_Add_Payment_History}}" class="btn btn-default btn-light"><i class="fa fa-plus"></i></a>
+					<a href="{{ subscription.view_invoice }}"  target="_blank" data-toggle="tooltip" title="{{ button_view_invoicw }}" class="btn btn-success"><i class="fa fa-eye"></i></a>
+										 
+										</td>
+									</tr>
+									{% set i=i+1 %}
+									  {% endfor %}
+									{% else %}
+									 <tr>
+                  <td class="text-center" colspan="6">{{ column_No_Records_Found }}</td>
+                </tr>
+									{% endif %}
+								</tbody>
+							</table>
+						</div>
+					  <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+				</div>
+			</div>
+		</div>
+    </div>
+{{ footer }}
+<script>
+
+function changeStatus() {
+    var x = document.getElementById("status").value;
+	var y="Disable";
+	if(x==1){
+		var y="Enable";
+		}
+    document.getElementById("change_status").innerHTML = y +" all products";
+    document.getElementById("status_value").value = x;
+	
+}
+</script>

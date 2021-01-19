@@ -1,0 +1,133 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+        <button type="submit" form="form-review" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default btn-light"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+   {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+      {% endif %}
+    <div class="panel panel-default card">
+      <div class="panel-heading ">
+        <h3 class="panel-title card-header"><i class="fa fa-pencil fas fa-edit"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-review" class="form-horizontal">
+          <div class="form-group row required">
+            <label class="col-sm-2 control-label col-form-label" for="input-post_id"><span data-toggle="tooltip" title="{{ help_post }}">{{ entry_post }}</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="post" value="{{ post }}" placeholder="{{ entry_post }}" id="input-post_id" class="form-control" />
+			  <input type="hidden" name="post_id" value="{{ post_id }}" />
+             {% if error_post %}
+              <div class="text-danger">{{ error_post }}</div>
+                {% endif %}
+            </div>
+          </div>
+          <div class="form-group row required">
+            <label class="col-sm-2 control-label col-form-label" for="input-name">{{ entry_name }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />  
+             {% if error_name %}
+              <div class="text-danger">{{ error_name }}</div>
+                {% endif %}
+            </div>
+          </div>
+		  <div class="form-group row required">
+            <label class="col-sm-2 control-label col-form-label" for="input-email">{{ entry_email }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="email_id" value="{{ email_id }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />  
+             {% if error_email %}
+              <div class="text-danger">{{ error_email }}</div>
+                {% endif %}
+            </div>
+          </div>
+          <div class="form-group row required">
+            <label class="col-sm-2 control-label col-form-label" for="input-text">{{ entry_text }}</label>
+            <div class="col-sm-10">
+              <textarea name="text" cols="60" rows="8" placeholder="{{ entry_text }}" id="input-text" class="form-control">{{ text }}</textarea>
+             {% if error_text %}
+              <div class="text-danger">{{ error_text }}</div>
+                {% endif %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 control-label col-form-label" for="input-date-added">{{ entry_date_added }}</label>
+            <div class="col-sm-3">
+              <div class="input-group datetime">
+                <input type="text" name="date_added" value="{{ date_added }}" placeholder="{{ entry_date_added }}" data-date-format="YYYY-MM-DD HH:mm:ss" id="input-date-added" class="form-control" />
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default btn-light"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 control-label col-form-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="status" id="input-status" class="form-control">
+               {% if status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+               {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                  {% endif %}
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+ var x='{{ ver }}';
+if(x=='3.1.0.0_b')
+{
+$('.datetime').datetimepicker({
+	'format': 'YYYY-MM-DD',
+	'locale': '{{ datepicker }}',
+	'allowInputToggle': true
+});
+} else {
+$('.datetime').datetimepicker({
+	pickDate: true,
+	pickTime: true
+});
+}
+//--></script>
+  <script type="text/javascript"><!--
+$('input[name=\'post\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=extension/purpletree_multivendor/sellerblogpost/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['title'],
+						value: item['blog_post_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'post\']').val(item['label']);
+		$('input[name=\'post_id\']').val(item['value']);		
+	}	
+});
+//--></script>
+</div>
+{{ footer }}

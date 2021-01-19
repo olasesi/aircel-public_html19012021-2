@@ -1,0 +1,159 @@
+<div class="modal-header">
+    <h3>Icon Editor</h3>
+    <a class="reset-btn" ng-click="reset()">Reset</a>
+</div>
+<style>
+    .modal-header .reset-btn {
+        color: white;
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        cursor: pointer;
+    }
+
+    .modal-body {
+        background-color: #f4f4f4;
+    }
+
+    .icon-type, .icon-set {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        background-color: #f4f4f4;
+    }
+
+    .icon-type > span {
+        float: left;
+        background-color: #f4f4f4;
+        font-weight: bold;
+        padding: 0 15px;
+        padding-right: 0;
+        height: 30px;
+        line-height: 30px;
+        margin-right: 15px;
+    }
+
+    .icon-browser {
+        max-height: 330px;
+        overflow-y: scroll;
+        display: block;
+        padding-top: 12px;
+        padding-left: 15px;
+        background-color: white;
+    }
+
+    .icon-browser > span {
+        width: 54px !important;
+        height: 54px !important;
+    }
+
+    .box1 {
+        display: inline-block;
+        margin: 0 12px 12px 0;
+        text-align: center;
+        background-color: #f4f4f4;
+        cursor: pointer;
+    }
+
+    .box1:hover, .box1.selected, .box1 .selected {
+        transition: all 0.2s;
+        background-color: #48a0d0 !important;
+        color: white !important;
+    }
+
+    .box1 span {
+        font-size: 25px;
+        line-height: 54px;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .icon-color, .icon-color > div, .icon-size, .icon-offset {
+        display: inline-block;
+    }
+
+    .icon-set {
+        padding-left: 15px;;
+    }
+
+    .icon-set > div {
+        margin-right: 15px;
+    }
+
+    .img-select {
+        margin-left: 86px;
+    }
+
+    .img-select .btn {
+        margin-right: 20px;
+    }
+
+    .img-preview {
+        max-width: 50px;
+    }
+
+    .img-select a:first-of-type {
+        line-height: 40px;
+        min-height: 40px;
+        min-width: 40px;
+    }
+
+    .image-browser {
+        float: left;
+        height: 68px;
+    }
+
+    .oc2 .modal {
+        top: 50%;
+        margin-top: -285px;
+    }
+</style>
+<div class="modal-body icon-popup">
+    <div class="popup-option icon-type">
+        <span>Icon Type</span>
+        <switch data-ng-model="ngModel.icon_type">
+            <switch-option key="none">None</switch-option>
+            <switch-option key="icon">Icon</switch-option>
+            <switch-option key="image">Image</switch-option>
+        </switch>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="icon-preview" ng-switch on="ngModel.icon_type">
+        <div class="image-browser" ng-switch-when="image">
+            <image-select image="ngModel.image"></image-select>
+        </div>
+        <div class="icon-browser" ng-switch-when="icon">
+            <span data-ng-repeat="icon in icons" class="box1" data-ng-click="chooseIcon(icon, $event)">
+                <span aria-hidden="true" class="icon-{{icon.class}} {{ isSelected(icon) }}"></span>
+            </span>
+        </div>
+    </div>
+    <div class="icon-set">
+        <div class="popup-option icon-color" ng-if="ngModel.icon_type == 'icon'">
+            <span>Color</span>
+            <j-opt-color data-ng-model="ngModel.options.color"></j-opt-color>
+        </div>
+
+        <div class="popup-option icon-size" ng-if="ngModel.icon_type == 'icon'">
+            <span>Size</span>
+            <select ui-select2 data-ng-model="ngModel.options.font_size">
+                <option data-ng-repeat="size in font_sizes" value="{{size}}">{{size}}</option>
+            </select>
+        </div>
+
+        <div class="popup-option icon-offset" ng-if="ngModel.icon_type == 'image'">
+            <span>Size</span>
+            <input type="text" class="journal-input journal-number-field" data-ng-model="ngModel.options.width" placeholder="Width"/>x<input type="text" class="journal-input journal-number-field" data-ng-model="ngModel.options.height" placeholder="Height"/>
+        </div>
+        <div class="popup-option icon-offset" ng-if="ngModel.icon_type == 'icon' || ngModel.icon_type == 'image'">
+            <span>Offset </span>
+            <input type="text" class="journal-input journal-number-field" data-ng-model="ngModel.options.top" placeholder="Top"/>x<input type="text" class="journal-input journal-number-field" data-ng-model="ngModel.options.left" placeholder="Left"/>
+        </div>
+
+
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn green btn-primary" data-ng-click="close()">OK</a>
+</div>

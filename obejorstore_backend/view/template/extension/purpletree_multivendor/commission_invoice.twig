@@ -1,0 +1,205 @@
+{{ header }}
+<style>
+	.pts-text-bold{
+		font-size:18px;
+		font-weight:bold
+		
+	}
+	.b-payment{font-size:15px;padding-left: 15px;margin-top: 5px;}
+	.h3-payment{font-size:25px;font-weight:normal;margin: 0;padding: 2px 3px;}
+	.pd{padding:15px !important;width:50%}
+	.status-payment{font-size:25px;font-weight:normal}
+	.payment-td{font-weight:normal;padding: 7px !important;line-height: 2.5 !important;}
+	
+</style>
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+        <a href="{{ print_commission_invoice }}" data-toggle="tooltip" title="{{ button_print }}" class="btn btn-primary" target="_blank"></i>{{ button_print }}</a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+  {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+	{% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+		 <div class="panel panel-default card">
+			<div class="panel-heading">
+				<h3 class="panel-title card-header"><i class="fa fa-user"></i>{{ text_commissionn }}</h3>
+			</div>
+			<div class="panel-body card-body">
+			<!----------------->
+  <div style="page-break-after: always;">
+  <h1>{{ invoice_number_text }}{{ invoice_number }}</h1>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+         <td>{{ text_order_detail }}</td>
+		  <td class="text-right">{{ text_created_at }}: {{ created_at }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><address>
+            <strong>{{ store_name }}</strong><br />
+            {{ store_address }}
+            </address>
+            <b>{{ text_telephone }}</b> {{ store_telephone }}<br />
+            <b>{{ text_email }}</b> {{ store_email }}<br />
+            <b>{{ text_website }}</b> <a href="{{ store_url }}">{{ store_url }}</a><br />
+			
+			</td>
+			<td><address>
+            <strong>{{ sellerdetails.store_name }}</strong><br />
+            {{ sellerdetails.store_address }}
+            {{ sellerdetails.store_city }}
+            </address>
+            <b>{{ text_telephone }}</b> {{ sellerdetails.store_phone }}<br />
+            <b>{{ text_email }}</b> {{ sellerdetails.store_email }}<br />
+			{% if seller_vatnumber != '' %}
+            <b>{{ seller_vatname }}</b> {{ seller_vatnumber }}<br /> 
+			{% endif %} 
+			</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td>{{ order_id_text }}</td>
+          <td><b>{{ column_product }}</b></td>
+          <td class="text-right"><b>{{ column_quantity }}</b></td>
+          <td class="text-right"><b>{{ column_product_price }}</b></td>
+          <td class="text-right"><b>{{ column_commission_percent }}</b></td>
+          <td class="text-right"><b>{{ fixed_text }}</b></td>
+          <td class="text-right"><b>{{ commision_product }}</b></td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td class="text-right">{{ order.order_id }}</td>
+          <td>{{ order.product.name }}
+            {% for option in order.product.option %}
+            <br />
+            &nbsp;<small> - {{ option.name }}: {{ option.value }}</small>
+            {% endfor %}</td>
+
+          <td class="text-right">{{ order.product.quantity }}</td>
+          <td class="text-right">{{ order.product.price_total }}</td>
+          <td class="text-right">{{ order.commission_percent }}</td>
+          <td class="text-right">{{ order.commission_fixed }}</td>
+          <td class="text-right">{{ order.total_commission }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+	    <tr>		
+          <td class="text-right" colspan="5"></td>          
+          <td>Shipping Commission</td>
+          <td class="text-right">{{ total_shipping_commission }}</td>
+	   </tr>
+	   <tr>		
+          <td class="text-right" colspan="5"></td>          
+          <td class=" pts-text-bold">{{ commision_product }}</td>
+          <td class="text-right pts-text-bold">{{ total_commissionn }}</td>
+	   </tr>
+      </tfoot>
+    </table>
+
+	<!---------------End Code PayPal------------------------->	
+	<table class="table table-bordered">
+      <tbody style="box-shadow:0px 0px 5px 0px rgba(0,0,0,0.5)">
+		<tr style="border:none !important">
+			<td colspan="2"><h3 class="h3-payment">{{ text_payment }}</h3></td>
+		</tr>
+        <tr>	
+          <td class="text-left payment-td" style="">
+
+			<b class="b-payment">{{ text_totla_payable_amount }}</b>: {{ total_pay_amountt }}<br>
+			<b class="b-payment">{{ payment_status }}</b>: {{ invoice_status }}<br>
+			{% if invoice_status_id == 2 %}
+			<!-----link------>
+				<a href="{{ pay_offline }}" class="" style="padding-left: 15px;">{{ transaction_history }} </a>
+			<!------end------>
+			{% else %}
+			{% if paypal.buttonshow %}
+		    <div class="b-payment">
+				<a href="{{ pay_offline }}" class="btn btn-primary" style="float:left"> <b>{{ button_pay_offline }}</b> </a>
+					<!---------------Start Code PayPal------------------------->
+	{% if paypal.hosted_button_id %}
+	<form style="float:left;padding:7px;" name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+	 <input type="hidden" name="cmd" value="_xclick"/>
+	 <input type="hidden" name="return" value="{{ paypal.return_url }}"/>
+ 	 <input type="hidden" name="notify_url" value="{{ paypal.notify_url }}"/>
+	  <input type="hidden" name="currency_code" value="{{ paypal.curency }}"/>
+	  <input type="hidden" name="business" value="{{ paypal.hosted_button_id }}"/>
+	  <input type="hidden" name="item_name" value="{{ paypal.item_name }}"/>
+	  <input type="hidden" name="item_number" value="1"/>
+	  <input type="hidden" name="amount" value="{{  paypal.amount }}"/>
+	  <input type="hidden" name="first_name" value="{{ paypal.first_name }}"/>
+	  <input type="hidden" name="last_name" value="{{ paypal.last_name }}"/>
+	  <input type="hidden" name="address1" value="{{ paypal.address }}"/>
+	  <input type="hidden" name="custom" value="{{ paypal.invoice_id }}"/>
+	  <input type="hidden" name="city" value="{{ paypal.city }}"/>
+	  <input type="hidden" name="state" value="{{ paypal.state }}"/>
+	  <input type="hidden" name="zip" value="{{ paypal.zip }}"/>
+	  <input type="hidden" name="country" value="{{ paypal.country }}"/>
+	  <input type="hidden" name="night_phone_a" value="{{ paypal.mobile }}"/>
+	  <input type="hidden" name="email" value="{{ paypal.store_email }}"/>
+		<input style="width: 120px;" type="image" src="{{ paypal.paypalbutton }}" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" />
+	</form>
+	{% endif %}
+			</div>
+			{% endif %}
+			{% endif %}
+		  </td>
+        </tr>
+      </tbody>
+    </table>
+	{%if module_purpletree_multivendor_footer_text %}
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td>{{ module_purpletree_multivendor_footer_text }}			  
+		 </td>
+        </tr>
+      </tbody>
+    </table>
+	{% endif %}
+  </div>
+
+			<!----------------->
+				</div>
+			</div>
+		</div>
+    </div>
+{{ footer }}
+<script>
+
+function changeStatus() {
+    var x = document.getElementById("status").value;
+	var y="Disable";
+	if(x==1){
+		var y="Enable";
+		}
+    document.getElementById("change_status").innerHTML = y +" all products";
+    document.getElementById("status_value").value = x;
+	
+}
+</script>

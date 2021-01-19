@@ -1,0 +1,87 @@
+<div class="container-fluid">
+	<div class="row">
+  		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 text-center">
+            <div class="well">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="seo_score_chart">
+                            <h1>{{ text_seo_score_for }}</h1>
+                            <div id="seo_score"></div>
+                            <div class="clearfix"></div>
+
+                            <div class="button">
+                                <br />
+                                <a class="btn btn-lg btn-primary btn-retest" data-loading-text="Please wait..." onclick="getSEOScore();">{{ button_test_again }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <a onClick="showSeoScoreHelper();" class="pointer-cursor">{{ text_seo_score_meaning }}</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <p>{{ text_seo_score_last_checked }} {{ seo_score_last_checked }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+  		</div>
+  		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+            <h3>{{ text_what_can_be_improved ~ ' (<span class="improved_count">' ~ fixes|length ~ '</span>)' }}</h3>
+            <br />
+            <div class="list-group list-group-fixes">
+                {% if fixes|length > 0 %}
+                    {% for fix in fixes %} 
+                    <div class="list-group-item">
+                        <span class="pull-left">
+                            <a onclick="seoFixQuick('{{ fix.event }}', this);" class="btn btn-sm btn-primary">{{ text_fix_now }}</a>
+                        </span>
+                        &nbsp;
+                        {{ fix.name }}
+                    </div>
+                    {% endfor %}
+                 {% else %}   
+                    <i class="fa fa-check-square" aria-hidden="true"></i>&nbsp;&nbsp;{{ text_already_improved_great_result }}
+                 {% endif %}  
+            </div>
+            
+            <div class="padding-top"></div>
+            <h3>{{ text_what_is_already_improved ~ ' (' ~ fixed|length ~ ')' }}</h3>
+            <br />
+            <div class="list-group list-group-fixes">
+                {% if fixed|length > 0 %}
+                    {% for index, fix in fixed %}  
+                        <div class="list-group-item {{ index > 4 ? 'show-hide-list' : '' }}">
+                            <span class="pull-left">
+                                <a onclick="seoFixQuick('{{ fix.event }}', this);" class="btn btn-sm btn-success disabled">{{ text_success_btn }}</a>
+                            </span>
+                            &nbsp;
+                            {{ fix.name }}
+                        </div>
+                    {% endfor %}
+                    {% if show_more %}
+                        <div class="text-center padding-top"><a onClick="showHideList();" class="btn btn-default btn-sm btn-show-hide-list">{{ text_show_more }}</a></div>
+                    {% endif %} 
+                {% endif %}  
+            </div>
+        </div>
+	</div>
+</div>
+
+
+<script>
+var seo_score = c3.generate({
+    bindto: '#seo_score',
+    data: {
+        columns: [
+            ['SEO Score', {{ seo_score }}],
+            ['Can be Improved', {{ 100-seo_score }}]
+        ],
+        type: 'donut',
+        onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
+        onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
+        onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
+    }
+});
+</script>

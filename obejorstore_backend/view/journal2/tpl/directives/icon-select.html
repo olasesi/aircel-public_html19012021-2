@@ -1,0 +1,5 @@
+<span class="icon-select" data-ng-switch on="ngModel.icon_type" data-ng-click="open()">
+    <span class="btn blue add-product">Edit</span>
+    <i data-ng-switch-when="icon" data-ng-style="{color: ngModel.options.color.value.color}" class="icon-{{ngModel.icon.class}}" ></i>
+    <img data-ng-switch-when="image" data-ng-src="{{ getImageSrc(ngModel.image) }}" />
+</span>

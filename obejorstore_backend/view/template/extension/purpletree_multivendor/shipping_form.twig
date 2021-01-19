@@ -1,0 +1,165 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+        <button type="submit" form="form-customer" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default btn-light"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid"> {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default card">
+      <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-pencil fas fa-edit"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-customer" class="form-horizontal">
+         <div class="tab-content">
+            <div class="tab-pane active" id="tab-general">
+              <div class="row">
+               
+                <div class="col-sm-10">
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="tab-customer">
+                      <fieldset>					
+						<div class="form-group row required">
+						    <label class="col-sm-2 control-label col-form-label" for="input-filter_name">{{ entry_seller_name }}</label>
+						    <div class="col-sm-10 catdivdrop">
+						      <input type="hidden" name="seller_id" value="{{ seller_id }}" class="form-control" />
+						       <input type="text" name="filter_name" value="{% if seller_id or seller_id=='0' %}{{ filter_name }}{% endif %}" placeholder="{{ entry_seller_name }}" id="input-name" class="form-control" />
+							 {% if error_filter_name %}
+                            <div class="text-danger">{{ error_filter_name }}</div>
+                            {% endif %}</div>
+						  </div>
+					
+						<!-- country -->
+						
+						<div class="form-group row required">
+                        <label class="col-sm-2 control-label col-form-label" for="input-shipping-country">{{ entry_shipping_country }}</label>
+                        <div class="col-sm-10">
+                          <select name="shipping_country" id="input-shippingcountry" class="form-control">
+                            <option value="">{{ text_select }}</option>
+							{% for country in countries %}
+							{% if country.country_id == shipping_country %}
+                            <option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
+							{% else %}
+                            <option value="{{ country.country_id }}">{{ country.name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                          </select>
+                          {% if error_shipping_country  %}
+                          <div class="text-danger">{{ error_shipping_country }}</div>
+                          {% endif %}
+                        </div>
+                      </div>
+					  
+					  <!-- country -->
+					  
+                        <div class="form-group row required">
+                          <label class="col-sm-2 control-label col-form-label" for="input-zip-from">{{ entry_zip_from }}</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="zip_from" value="{{ zip_from }}" placeholder="{{ entry_zip_from }}" id="input-zip-from" class="form-control" />
+                            {% if error_zip_from %}
+                            <div class="text-danger">{{ error_zip_from }}</div>
+                            {% endif %}</div>
+                        </div>
+						 <div class="form-group row required">
+                          <label class="col-sm-2 control-label col-form-label" for="input-zip-to">{{ entry_zip_to }}</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="zip_to" value="{{ zip_to }}" placeholder="{{ entry_zip_to }}" id="input-zip-to" class="form-control" />
+                            {% if error_zip_to %}
+                            <div class="text-danger">{{ error_zip_to }}</div>
+                            {% endif %}</div>
+                        </div>
+                      
+						<div class="form-group row required">
+                          <label class="col-sm-2 control-label col-form-label" for="input-weight-from">{{ entry_weight_from }}</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="weight_from" value="{{ weight_from }}" placeholder="{{ entry_weight_from }}" id="input-weight-from" class="form-control" />
+                            {% if error_weight_from %}
+                            <div class="text-danger">{{ error_weight_from }}</div>
+                            {% endif %}</div>
+                        </div>
+						<div class="form-group row required">
+                          <label class="col-sm-2 control-label col-form-label" for="input-weight-to">{{ entry_weight_to }}</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="weight_to" value="{{ weight_to }}" placeholder="{{ entry_weight_to }}" id="input-weight-to" class="form-control" />
+                            {% if error_weight_to %}
+                            <div class="text-danger">{{ error_weight_to }}</div>
+                            {% endif %}</div>
+                        </div>
+						  <div class="form-group row required">
+                          <label class="col-sm-2 control-label col-form-label" for="input-price">{{ entry_price }}</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="price" value="{{ price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control" />
+                            {% if error_price %}
+                            <div class="text-danger">{{ error_price }}</div>
+                            {% endif %}</div>
+                        </div>
+						<!-- <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-max-days">{{ entry_max_days }}</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="max_days" value="{{ max_days }}" placeholder="{{ entry_max_days }}" id="input-max_days" class="form-control" />
+                            {% if error_max_days %}
+                            <div class="text-danger">{{ error_max_days }}</div>
+                            {% endif %}</div>
+                        </div> -->
+                      </fieldset>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+$('input[name=\'filter_name\']').autocomplete({
+'source': function(request, response) {
+$.ajax({
+url: 'index.php?route=extension/purpletree_multivendor/shipping/autocompleteseller&user_token={{ user_token }}',
+dataType: 'json',	
+success: function(json) {
+response($.map(json, function(item) {
+return {
+label: item['name'],
+value: item['vendor_id']
+}
+}));
+}
+});
+$('input[name=\'seller_id\']').val('');
+
+},
+'select': function(item) {
+$('input[name=\'filter_name\']').val(item['label']);
+$('input[name=\'seller_id\']').val(item['value']);
+}	
+});
+
+
+//--></script> 
+<style>
+.catdivdrop ul{
+	overflow: auto;
+	max-height: 100px;
+	width: 30%;
+}
+</style>
+  </div>
+{{ footer }} 

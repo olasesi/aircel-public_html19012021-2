@@ -1,0 +1,6 @@
+<span class="multi-lang">
+    <span data-ng-repeat="language in languages.languages">
+        <input type="text" class="journal-input" data-ng-model="ngModel.value[language.language_id]" />
+        <img data-ng-src="{{language.image}}" title="{{language.name}}" />
+    </span>
+</span>

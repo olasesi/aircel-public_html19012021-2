@@ -1,0 +1,87 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+  {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+	{% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+		 <div class="panel panel-default card">
+			<div class="panel-heading">
+				<h3 class="panel-title card-header"><i class="fa fa-credit-card"></i> {{ text_offline_payment_form_invoice_id }}#{{ invoice_id }}</h3> 
+			</div>
+			<div class="panel-body card-body">
+				<form name="savestatus" method="post">
+					<div class="row">
+						<div class="col-sm-12 form-group row">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_status }}</label>
+							</div>
+							<div class="col-sm-9">
+								<select name="status_id" class="form-control">
+								{% if statuslist %}
+									{% for statuss in statuslist %}
+									{% if currentstatus.status_id == statuss.status_id %}
+                                    <option value="{{ statuss.status_id }}" selected="selected">{{ statuss.status }}</option>									
+										{% else %}
+										<option value="{{ statuss.status_id }}" >{{ statuss.status }}</option>
+									{% endif %}	
+										
+									{% endfor %}
+								{% endif %}
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-12 form-group row">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_payment_date }}</label>
+							</div>
+							<div class="col-sm-9">
+								<input type="text" readonly disabled class="form-control" value="Offline"/>
+							</div>
+						</div>
+						<div class="col-sm-12 form-group  row">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_transaction_id }}</label>
+							</div>
+							<div class="col-sm-9">
+								<input type="text" name="transaction_id" id="" class="form-control" />
+							</div>
+						</div>
+						<div class="col-sm-12 form-group row">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_comment }}</label>
+							</div>
+							<div class="col-sm-9">
+								<textarea rows="8" cols="100%" name="comment" id="" class="form-control" ></textarea>
+							</div>
+						</div>
+						<div class="col-sm-12 " style="">
+							<div class="col-sm-12 text-right">
+								<input type="submit" class="btn btn-primary" value="Save and Enable Subscription" id="saveAndEnableSubscription" formaction="{{ saveAndEnableSubscription }}" />
+								<input type="submit" class="btn btn-primary" value="Save" />
+							</div>
+						</div>	
+					</div>
+				</form>
+			 </div>
+		</div>
+	</div>
+</div>
+{{ footer }}

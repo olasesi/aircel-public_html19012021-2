@@ -1,0 +1,165 @@
+<div class="modal-header">
+    <h3>Background Settings</h3>
+    <a class="reset-btn" ng-click="reset()">Reset</a>
+</div>
+<style>
+    .modal-header .reset-btn {
+        color: white;
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        cursor: pointer;
+    }
+    .modal:not(#modal-image) .modal-body {
+        max-height: 450px !important;
+    }
+
+    .modal-open{
+        overflow-y: auto;
+    }
+
+    .modal:not(#modal-image) .modal-body > div {
+        margin-top: 1px;
+        padding: 10px 10px 0 15px;
+        background-color: #f4f4f4;
+        min-height: 48px;
+    }
+
+    .modal:not(#modal-image) .modal-body > div > span{
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    .modal:not(#modal-image) .modal-footer{
+        padding-bottom: 0;
+    }
+
+    .modal.fade.in{
+        top: 50%;
+        margin-top: -260px;
+    }
+
+    .popup-option {
+        display: block;
+    }
+    .in-opt{
+        float: left;
+        margin-right: 30px;;
+    }
+    .in-opt span{
+        display: block;
+        margin-bottom: 5px;;
+    }
+    .img-select a:first-of-type{
+        min-width: 100px;
+        max-width: 90%;
+    }
+
+    .span{
+        display: inline-block;
+        margin-right: 10px;
+        position: relative;
+        min-width:60px;
+        top: 5px;
+    }
+    .span-1{
+        top: -14px;
+    }
+    .size{
+        display: flex;
+        align-content: center;
+    }
+    .size input{
+        margin: 0 10px;
+        height: 30px;
+    }
+    .size input + input{
+        margin-left:0;
+    }
+</style>
+<div class="modal-body bg-editor">
+    <!--<pre>{{ngModel|json}}</pre>-->
+    <div class="in-opt">
+        <span style="display: block">Use Gradient</span>
+        <switch data-ng-model="ngModel.use_gradient">
+            <switch-option key="1">ON</switch-option>
+            <switch-option key="0">OFF</switch-option>
+        </switch>
+    </div>
+
+    <div class="popup-option" style="overflow: hidden; margin-top: 0" ng-hide="ngModel.use_gradient">
+        <div class="in-opt" data-ng-show="bgcolor">
+            <span>Color</span>
+            <j-opt-color data-ng-model="ngModel.bgcolor"></j-opt-color>
+        </div>
+        <div class="in-opt" style="margin-bottom: 10px;">
+            <span>Image / Pattern</span>
+            <j-opt-image data-ng-model="ngModel.bgimage"></j-opt-image>
+        </div>
+        <div class="in-opt" ng-hide="ngModel.bgimage_size === 'cover'">
+            <span style="display: block">Fixed</span>
+            <switch data-ng-model="ngModel.bgimage_attach">
+                <switch-option key="fixed">ON</switch-option>
+                <switch-option key="scroll">OFF</switch-option>
+            </switch>
+        </div>
+    </div>
+
+    <div class="popup-option" style="clear: both" ng-hide="ngModel.use_gradient">
+        <span class="span span-1">Repeat</span>
+        <switch data-ng-model="ngModel.bgimage_repeat">
+            <switch-option key="repeat">Repeat</switch-option>
+            <switch-option key="no-repeat">No Repeat</switch-option>
+            <switch-option key="repeat-x">Repeat X</switch-option>
+            <switch-option key="repeat-y">Repeat Y</switch-option>
+        </switch>
+    </div>
+    <div class="popup-option size" ng-hide="ngModel.use_gradient">
+        <span class="span">Position</span>
+        <select data-ng-model="ngModel.bgimage_position" ui-select2="{width: 50, minimumResultsForSearch: -1}">
+            <option value="left top">Left Top</option>
+            <option value="left center">Left Center</option>
+            <option value="left bottom">Left Bottom</option>
+            <option value="right top">Right Top</option>
+            <option value="right center">Right Center</option>
+            <option value="right bottom">Right Bottom</option>
+            <option value="center top">Center Top</option>
+            <option value="center bottom">Center Bottom</option>
+            <option value="custom">Custom</option>
+        </select>
+        <input ng-show="ngModel.bgimage_position === 'custom'" type="text" class="journal-number-field input" data-ng-model="ngModel.bg_position_x" placeholder="X" />
+        <input ng-show="ngModel.bgimage_position === 'custom'" type="text" class="journal-number-field input" data-ng-model="ngModel.bg_position_y" placeholder="Y" />
+        <switch ng-show="ngModel.bgimage_position === 'custom'" data-ng-model="ngModel.bg_position_unit">
+            <switch-option key="px">px</switch-option>
+            <switch-option key="%">%</switch-option>
+        </switch>
+    </div>
+    <div class="popup-option size" ng-hide="ngModel.use_gradient">
+        <span class="span">Size</span>
+        <select data-ng-model="ngModel.bgimage_size" ui-select2="{width: 50, minimumResultsForSearch: -1}">
+            <option value="auto">Auto</option>
+            <option value="contain">Contain</option>
+            <option value="cover">Cover</option>
+            <option value="custom">Custom</option>
+        </select>
+        <input ng-show="ngModel.bgimage_size === 'custom'" type="text" class="journal-number-field input" data-ng-model="ngModel.bg_size_x" placeholder="Width" />
+        <input ng-show="ngModel.bgimage_size === 'custom'" type="text" class="journal-number-field input" data-ng-model="ngModel.bg_size_y" placeholder="Height" />
+        <switch ng-show="ngModel.bgimage_size === 'custom'" data-ng-model="ngModel.bg_size_unit">
+            <switch-option key="px">px</switch-option>
+            <switch-option key="%">%</switch-option>
+        </switch>
+    </div>
+    <div class="popup-option" ng-show="ngModel.use_gradient">
+        <span>Paste your gradient code below.</span>
+        <span style="display:inline-block; float: right">
+            <span>Sample Generators:&nbsp;</span>
+        <a href="https://www.css-gradient.com/" target="_blank">Gradient 1</a> /
+        <a href="http://uigradients.com/" target="_blank">Gradient 2</a> /
+        <a href="http://jxnblk.com/shade/" target="_blank">Gradient 3</a>
+        </span>
+        <textarea style="display: block; width: 505px" data-ng-model="ngModel.gradient" cols="30" rows="10"></textarea>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-primary green" ng-click="save()">OK</a>
+    <br /><br />
+</div>

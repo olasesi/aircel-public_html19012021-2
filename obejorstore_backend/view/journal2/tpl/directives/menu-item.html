@@ -1,0 +1,47 @@
+<span class="menu-editor">
+    <select ui-select2="{minimumResultsForSearch: -1}" data-ng-model="ngModel.menu_type" data-ng-change="resetItem()">
+        <option value="category">Category</option>
+        <option value="product">Product</option>
+        <option value="manufacturer">Manufacturer</option>
+        <option value="information">Information</option>
+        <option value="opencart">OpenCart Page</option>
+        <option value="blog_home">Blog Home</option>
+        <option value="blog_category">Blog Category</option>
+        <option value="blog_post">Blog Post</option>
+        <option value="popup">Popup Module</option>
+        <option value="custom">Custom</option>
+    </select>
+    <span ng-switch on="ngModel.menu_type">
+        <category-search ng-switch-when="category" model="ngModel.menu_item"></category-search>
+        <product-search ng-switch-when="product" model="ngModel.menu_item"></product-search>
+        <manufacturer-search ng-switch-when="manufacturer" model="ngModel.menu_item"></manufacturer-search>
+        <information-search ng-switch-when="information" model="ngModel.menu_item"></information-search>
+        <blog-category-search ng-switch-when="blog_category" model="ngModel.menu_item"></blog-category-search>
+        <blog-post-search ng-switch-when="blog_post" model="ngModel.menu_item"></blog-post-search>
+        <select ng-switch-when="popup" ui-select2="{minimumResultsForSearch: -1, placeholder: 'Choose module...'}" data-ng-model="ngModel.menu_item">
+            <option value=""></option>
+            <option data-ng-repeat="module in popup_modules" value="{{module.module_id}}">{{module.module_data.module_name}}</option>
+        </select>
+        <input ng-switch-when="custom" class="journal-input" type="text" data-ng-model="ngModel.menu_item.url" placeholder="Url" />
+        <select ng-switch-when="opencart" ui-select2="{minimumResultsForSearch: -1}" data-ng-model="ngModel.menu_item.page">
+            <option value="common/home">Home</option>
+            <option value="account/wishlist">Wishlist</option>
+            <option value="product/compare">Compare</option>
+            <option value="account/account">My Account</option>
+            <option value="checkout/cart">Shopping cart</option>
+            <option value="checkout/checkout">Checkout</option>
+            <option value="information/contact">Contact</option>
+            <option value="account/return/insert">Returns</option>
+            <option value="information/sitemap">Sitemap</option>
+            <option value="product/manufacturer">Brands</option>
+            <option value="account/voucher">Gift Vouchers</option>
+            <option value="affiliate/account">Affiliates</option>
+            <option value="product/special">Specials</option>
+            <option value="product/search">Search</option>
+            <option value="account/order">Order History</option>
+            <option value="account/newsletter">Newsletter</option>
+            <option value="login">Login (Account)</option>
+            <option value="register">Register (Logout)</option>
+        </select>
+    </span>
+</span>

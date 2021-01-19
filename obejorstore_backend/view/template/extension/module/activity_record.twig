@@ -1,0 +1,39 @@
+<fieldset>
+  <legend>
+    <div class="pull-right"><a target="_blank" href="{{ download }}" data-toggle="tooltip" class="btn btn-primary" data-toggle="tooltip" title="{{ button_download }}"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+        <a href="{{ delete }}" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? true : false;"><i class="fa fa-trash-o"></i></a>
+      </div>
+    {{ text_record }}
+  </legend>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <td class="text-left">{{ column_date }}</td>
+          <td class="text-left">{{ column_user }}</td>
+          <td class="text-left">{{ column_details }}</td>
+          <td class="text-left">{{ column_ip }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% if activities %}
+        {% for activity in activities %}
+        <tr>
+          <td class="text-left"><i class="fa fa-clock-o"></i> {{ activity.date_added }}</td>
+          <td class="text-left">{{ activity.username }}</td>
+          <td class="text-left">{{ activity.comment }}</td>
+          <td class="text-left">{{ activity.ip }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="4" class="text-center">{{ text_no_results }}</td>
+        </tr>        
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</fieldset>
+
+
+

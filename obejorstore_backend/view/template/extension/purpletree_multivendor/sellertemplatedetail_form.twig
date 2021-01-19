@@ -1,0 +1,158 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_detailform }}</h1>
+      <ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+  {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+	{% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+		 <div class="panel panel-default card">
+			<div class="panel-heading">
+				<h3 class="panel-title card-header"><i class="fa fa-credit-card"></i> {{ heading_detailform }}</h3> 
+			</div>
+			<div class="panel-body card-body">
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-product">
+					<input type="hidden" name="template_id" class="form-control" value="{{ template_id }}"/>
+					<input type="hidden" name="id" class="form-control" value="{{ id }}"/>
+					<input type="hidden" name="product_id" class="form-control" value="{{ product_id }}"/>
+					<div class="row">
+						<div class="col-sm-12 form-group row required">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_select_seller }}</label> 
+							</div>
+							<input type="hidden" name="seller_id_filter" value="{{ seller_id_filter }}" class="form-control" />
+							<div class="col-sm-9">
+								<input name="store_name" placeholder="{{ text_select_seller }}" type="text" class="form-control" value="{{ store_name }}"/>
+							</div>
+						</div>
+						<div class="col-sm-12 form-group row required">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_quantity }}</label>
+							</div>
+							<div class="col-sm-9">
+								<input name="quantity" placeholder="{{ text_quantity }}" type="text" class="form-control" value="{{ quantity }}"/>
+							{% if quantity_error %}
+								<div class="text-danger">{{ quantity_error }}</div>
+							{% endif %}
+							</div>
+						</div>							
+						<div class="col-sm-12 form-group row required">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_price }}</label>
+							</div>
+							<div class="col-sm-9">
+								<input name="price" placeholder="{{ text_price }}" type="text" class="form-control" value="{{ price }}"/>
+								{% if price_error %}
+									<div class="text-danger">{{ price_error }}</div>
+								{% endif %}
+							</div>
+							</div>					
+						<div class="col-sm-12 form-group  row">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_stock_status }}</label>
+							</div>
+							<div class="col-sm-9">
+							  <select name="stock_status_id" id="input-stock-status" class="form-control">
+								{% for stock_status in stock_statuses %}
+								{% if stock_status.stock_status_id == stock_status_id %}
+								<option value="{{ stock_status.stock_status_id }}" selected="selected">{{ stock_status.name }}</option>
+								{% else %}
+								<option value="{{ stock_status.stock_status_id }}">{{ stock_status.name }}</option>
+								{% endif %}
+								{% endfor %}
+							  </select>
+							</div>
+						</div>							
+						<div class="col-sm-12 form-group  row">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ text_subtract_stock }}</label>
+							</div>
+								<div class="col-md-9">
+									 <select name="subtract" id="input-subtract" class="form-control">
+										{% if subtract %}
+										<option value="1" selected="selected">{{ text_yes }}</option>
+										<option value="0">{{ text_no }}</option>
+										{% else %}
+										<option value="1">{{ text_yes }}</option>
+										<option value="0" selected="selected">{{ text_no }}</option>
+										{% endif %}
+									 </select>
+								</div>
+						</div>				
+						<div class="col-sm-12 form-group  row">
+							<div class="col-sm-3">
+								<label class="control-label col-form-label">{{ entry_status }}</label>
+							</div>
+								<div class="col-sm-9">
+								  <select name="status" id="input-status" class="form-control">
+									{% if status %}
+									<option value="1" selected="selected">{{ text_enabled }}</option>
+									<option value="0">{{ text_disabled }}</option>
+									{% else %}
+									<option value="1">{{ text_enabled }}</option>
+									<option value="0" selected="selected">{{ text_disabled }}</option>
+									{% endif %}
+								  </select>
+								</div>
+							  </div>
+						<div class="col-sm-12 " style="">
+							<div class="col-sm-12 text-right">
+								<input type="submit" class="btn btn-primary" value="Save" />
+							</div>
+						</div>	
+					</div>
+				</form>
+			 </div>
+		</div>
+	</div>
+</div>
+<script>
+	var store_name = $('input[name=\'store_name\']').val();
+	
+	if (store_name) {
+		url += '&store_name=' + encodeURIComponent(store_name);
+	}
+</script>
+<script type="text/javascript"><!--
+$('input[name=\'store_name\']').autocomplete({
+
+	'source': function(request, response) {
+	
+		$.ajax({
+			url: 'index.php?route=extension/purpletree_multivendor/producttemplate/autosellerstore&user_token={{ user_token }}&store_name=' +  encodeURIComponent(request),
+			dataType: 'json',	
+				success: function(json) {
+				//alert("Callback done!");
+					response($.map(json, function(item) {
+					return {
+					label: item['name'],
+					value: item['vendor_id']
+					}
+				}));
+			}
+		});
+	},
+'select': function(item) {
+	$('input[name=\'store_name\']').val(item['label']);
+	$('input[name=\'seller_id_filter\']').val(item['value']);
+	}	
+});
+
+
+//--></script> 
+{{ footer }}

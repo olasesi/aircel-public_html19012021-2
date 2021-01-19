@@ -1,0 +1,249 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+        <button type="submit" form="form-subscription" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default btn-light"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default card">
+      <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-pencil fas fa-edit"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-subscription" class="form-horizontal">
+          <ul class="nav nav-tabs">
+            <li class="active nav-item"><a href="#tab-general" class="nav-link" data-toggle="tab">{{ tab_general }}</a></li>
+            <li class="nav-item"><a href="#tab-data" data-toggle="tab" class="nav-link">{{ tab_data }}</a></li>
+
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab-general">
+              <ul class="nav nav-tabs" id="language">
+                {% for language in languages %}
+                <li class="nav-item"><a class="nav-link" href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                {% endfor %}
+              </ul>
+              <div class="tab-content">
+                {% for language in languages %}
+                <div class="tab-pane" id="language{{ language.language_id }}">
+                  <div class="form-group row required">
+                    <label class="col-sm-2 control-label col-form-label" for="input-name{{ language.language_id }}">{{ entry_name }}</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="subscription[{{ language.language_id }}][name]" value="{{ subscription[language.language_id] ? subscription[language.language_id].name }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control" />
+                      {% if error_name[language.language_id] %}
+                      <div class="text-danger">{{ error_name[language.language_id] }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 control-label col-form-label" for="input-description{{ language.language_id }}">{{ entry_description }}</label>
+                    <div class="col-sm-10">
+                      <textarea name="subscription[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ subscription[language.language_id] ? subscription[language.language_id].description }}</textarea>
+                    </div>
+                  </div>
+  
+                  <div class="form-group row">
+                    <label class="col-sm-2 control-label col-form-label" for="input-short_description{{ language.language_id }}">{{ entry_short_description }}</label>
+                    <div class="col-sm-10">
+                      <textarea name="subscription[{{ language.language_id }}][short_description]" rows="5" placeholder="{{ entry_short_description }}" id="input-short_description{{ language.language_id }}" class="form-control">{{ subscription[language.language_id] ? subscription[language.language_id].short_description }}</textarea>
+                    </div>
+                  </div>
+         
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-data">
+				<div class="form-group row">
+                <label class="col-sm-2 control-label col-form-label" for="input-default_subscription_plan">{{ entry_default_subscription_plan }}</span></label>
+                <div class="col-sm-10">
+                  <input type="checkbox" name="default_subscription_plan" value="1" placeholder="{{ entry_default_subscription_plan }}" id="input-default_subscription_plan" class="form-control"{% if default_subscription_plan==1 %} checked {% endif %}/>
+                </div>
+              </div>
+			  
+               <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-no_of_product">{{ entry_no_of_product }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="no_of_product" value="{{ no_of_product }}" placeholder="{{ entry_no_of_product }}" id="input-no_of_product" class="form-control" />
+				  {% if error_no_of_product %}
+                      <div class="text-danger">{{ error_no_of_product }}</div>
+                      {% endif %}
+                </div>
+              </div>
+              <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-joinning_fee">{{ entry_joinning_fee }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="joining_fee" value="{{ joining_fee }}" placeholder="{{ entry_joinning_fee }}" id="input-joinning_fee" class="form-control" />
+				    {% if error_joining_fee %}
+                      <div class="text-danger">{{ error_joining_fee }}</div>
+                      {% endif %}
+                </div>
+              </div>
+			  
+			  <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-subscription_price">{{ entry_subscription_price }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="subscription_price" value="{{ subscription_price }}" placeholder="{{ entry_subscription_price }}" id="input-subscription_price" class="form-control" />
+				   {% if error_subscription_price %}
+                      <div class="text-danger">{{ error_subscription_price }}</div>
+                      {% endif %}
+                </div>
+              </div>
+			  
+			   <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-validity">{{ entry_validity }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="validity" value="{{ validity }}" placeholder="{{ entry_validity }}" id="input-validity" class="form-control" />
+				    {% if error_validity %}
+                      <div class="text-danger">{{ error_validity }}</div>
+                      {% endif %}
+                </div>
+              </div>
+			  <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-no_of_featured_product">{{ entry_no_of_featured_product  }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="no_of_featured_product" value="{{ no_of_featured_product }}" placeholder="{{ entry_no_of_featured_product }}" id="input-no_of_featured_product" class="form-control" />
+				    {% if error_no_of_featured_product %}
+                      <div class="text-danger">{{ error_no_of_featured_product }}</div>
+                       {% endif %}
+                </div>
+              </div>			  
+			   <div class="form-group row required">
+                <label class="col-sm-2 control-label col-form-label" for="input-no_of_category_featured_product">{{ entry_no_of_category_featured_product  }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="no_of_category_featured_product" value="{{ no_of_category_featured_product }}" placeholder="{{ entry_no_of_category_featured_product }}" id="input-no_of_category_featured_product" class="form-control" />
+				    {% if error_no_of_category_featured_product %}
+                      <div class="text-danger">{{ error_no_of_category_featured_product }}</div>
+                       {% endif %}
+                </div>
+              </div>			  
+			  <div class="form-group row">
+               <label class="col-sm-2 control-label col-form-label" for="input-featured_store">{{ entry_allow_Store_featured }}</label>
+                <div class="col-sm-10">
+                 <select name="featured_store" id="input-featured_store" class="form-control">
+                   {% if featured_store %}
+                   <option value="1" selected="selected">{{ text_yes }}</option>
+                   <option value="0">{{ text_no }}</option>
+                    {% else %}
+                   <option value="1">{{ text_yes }}</option>
+                   <option value="0" selected="selected">{{ text_no }}</option>
+                   {% endif %}
+                 </select>
+               </div>
+            </div>
+			</div>
+			  
+			  
+			  
+              <div class="form-group row">
+                <label class="col-sm-2 control-label col-form-label" for="input-status">{{ entry_status }}</label>
+                <div class="col-sm-10">
+                  <select name="status" id="input-status" class="form-control">
+                    {% if status %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+  
+{% if ver=='3.1.0.0_b' %}
+    <script type="text/javascript"><!--
+      $('textarea[data-toggle=\'summernote\']').ckeditor();
+    //--></script>
+{% else %}
+	 <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> 
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> 
+{% endif %} 
+  
+  <script type="text/javascript"><!--
+$('input[name=\'path\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				json.unshift({
+					category_id: 0,
+					name: '{{ text_none }}'
+				});
+
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'path\']').val(item['label']);
+		$('input[name=\'parent_id\']').val(item['value']);
+	}
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('input[name=\'filter\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/filter/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['filter_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter\']').val('');
+
+		$('#category-filter' + item['value']).remove();
+
+		$('#category-filter').append('<div id="category-filter' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="category_filter[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+$('#category-filter').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('#language a:first').tab('show');
+//--></script></div>
+{{ footer }}

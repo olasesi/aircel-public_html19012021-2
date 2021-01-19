@@ -1,0 +1,277 @@
+{% if display_data %} 
+    <div class="row">
+        <div class="col-xs-3">
+            <h4>{{ text_server_speed }}</h4>
+        </div>
+        <div class="col-xs-9">
+            {% if fields_checker_values.ttfb_loading >= 1.0 %} 
+               <h4 class="text-danger"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_server_response_time_bad }}</h4>
+            {% elseif fields_checker_values.ttfb_loading >= 0.2 and fields_checker_values.ttfb_loading <= 1.0 %} 
+               <h4 class="text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_server_response_time_medium }}</h4>
+            {% else %}   
+               <h4 class="text-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_server_response_time_good }}</h4>
+            {% endif %} 
+
+            <br />
+            <p><strong>{{ text_ttfb_time }}</strong> {{ fields_checker_values.ttfb_loading }} {{ text__seconds }}</p>
+            <p><strong>{{ text_site_loading_time }}</strong> {{ fields_checker_values.site_loading }} {{ text__seconds }}</p>
+
+            <br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_ttfb_helper }}<br /><br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_site_load_helper }}<br />
+            <hr />
+        </div>
+    </div>
+    
+        <br /><br />
+      
+    <div class="row">
+        <div class="col-xs-3">
+            <h4>{{ text_https_ssl }}</h4>
+        </div>
+        <div class="col-xs-9">
+            {% if fields_checker_values.ssl_enabled %} 
+               <h4 class="text-success"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_https_is_supported }}</h4>
+            {% else %}   
+               <h4 class="text-danger"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_https_is_not_supported }}</h4>
+            {% endif %} 
+            <br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_ssl_helper }}<br /><br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_ssl_helper2 }}<br />
+            <hr />
+        </div>
+    </div>
+
+    <br /><br />
+    
+    <div class="row">
+        <div class="col-xs-3">
+            <h4>{{ text_title_tag }}</h4>
+        </div>
+        <div class="col-xs-9">
+            {% if fields_checker_values.title_length <=  10  or fields_checker_values.title_length >= 60 %} 
+               <h4 class="text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_long_small_title_tag }}</h4>
+            {% else %}   
+               <h4 class="text-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_title_perfect_tag }}</h4>
+            {% endif %}  
+            <br />
+            <p><strong>{{ text_character_text }}</strong> "{{ fields_checker_values.title }}"</p>
+            <p><strong>{{ text_character_length }}</strong> {{ fields_checker_values.title_length }}</p>
+
+            <br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_title_tag_helper }}
+            <hr />
+        </div>
+    </div>
+
+    <br /><br />
+    
+    <div class="row">
+        <div class="col-xs-3">
+            <h4>{{ text_description_tag }}</h4>
+        </div>
+        <div class="col-xs-9">
+            {% if fields_checker_values.meta_description_length <= 10  or  fields_checker_values.meta_description_length >=  160 %} 
+               <h4 class="text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_long_small_meta_description_tag }}</h4>
+            {% else %}   
+               <h4 class="text-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_meta_description_perfect_tag }}</h4>
+            {% endif %} 
+            <br />
+            <p><strong>{{ text_character_text }}</strong> "{{ fields_checker_values.meta_description }}"</p>
+            <p><strong>{{ text_character_length }}</strong> {{ fields_checker_values.meta_description_length }}</p>
+
+            <br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_meta_description_tag_helper }}
+            <hr />
+        </div>
+    </div>
+
+    <br /><br />
+    
+    <div class="row">
+        <div class="col-xs-3">
+            <h4>{{ text_canonical_tag }}</h4>
+        </div>
+        <div class="col-xs-9">
+            {% if fields_checker_values.canonical  ==  '' %} 
+               <h4 class="text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_canonical_missing_tag }}</h4>
+            {% else %}   
+               <h4 class="text-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_canonical_tag_success }}</h4>
+            {% endif %}  
+            <br />
+            <p><strong>{{ text_canonical_url }}</strong> {{ fields_checker_values.canonical }}</p>
+            <p><strong>{{ text_canonical_tested_url }}</strong> {{ fields_checker_values.full_url }}</p>
+
+            <br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_canonical_helper }}
+            <hr />
+        </div>
+    </div>
+
+    <br /><br />
+    
+    <div class="row">
+        <div class="col-xs-3">
+            <h4>{{ text_og_tag }}</h4>
+        </div>
+        <div class="col-xs-9">
+            {% if fields_checker_values.og_tags|length ==  0 %}  
+               <h4 class="text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_no_og_tags}}</h4>
+            {% else %}   
+               <h4 class="text-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_og_tags_success }}</h4>
+            {% endif %}  
+
+            {% if fields_checker_values.og_tags|length > 0 %}  
+                <br />{{ text_og_tags_listing}}<br /><br />
+                <table class="table table-striped table-hover">
+                   <thead>
+                      <tr>
+                         <th>{{ text_tag }}</th>
+                         <th>{{ text_content }}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {% for og_tag in fields_checker_values.og_tags %} 
+                          <tr>
+                             <td>{{ og_tag.name }}</td>
+                             <td>{{ og_tag.value }}</td>
+                          </tr>
+                      {% endfor %}
+                   </tbody>
+                </table>   
+            {% endif %}                  
+            <br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_og_tags_helper }}
+            <hr />
+        </div>
+    </div>
+
+    <br /><br />
+    
+    <div class="row">
+        <div class="col-xs-3">
+            <h4>{{ text_twitter_tags }}</h4>
+        </div>
+        <div class="col-xs-9">
+            {% if fields_checker_values.twitter_tags|length ==  0 %}  
+               <h4 class="text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_no_twitter_tags}}</h4>
+            {% else %}   
+               <h4 class="text-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_twitter_tags_success }}</h4>
+            {% endif %} 
+
+            {% if fields_checker_values.twitter_tags|length >  0 %}  
+                <br />{{ text_og_tags_listing}}<br /><br />
+                <table class="table table-striped table-hover">
+                   <thead>
+                      <tr>
+                         <th>{{ text_tag }}</th>
+                         <th>{{ text_content }}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {% for twitter_tag in fields_checker_values.twitter_tags %} 
+                          <tr>
+                             <td>{{ twitter_tag.name }}</td>
+                             <td>{{ twitter_tag.value }}</td>
+                          </tr>
+                      {% endfor %}
+                   </tbody>
+                </table>   
+            {% endif %}                  
+            <br />
+            <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_twitter_tags_helper }}
+            <hr />
+        </div>
+    </div>
+
+    <br /><br />
+    
+    <div class="row">
+        <div class="col-xs-3">
+            <h4>{{ text_heading_titles }}</h4>
+        </div>
+        <div class="col-xs-9">
+
+            <table class="table table-striped table-hover">
+               <thead>
+                  <tr>
+                     <th>H1</th>
+                     <th>H2</th>
+                     <th>H3</th>
+                     <th>H4</th>
+                     <th>H5</th>
+                     <th>H6</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>{{ heading_tags.h1 }}</td>
+                     <td>{{ heading_tags.h2 }}</td>
+                     <td>{{ heading_tags.h3 }}</td>
+                     <td>{{ heading_tags.h4 }}</td>
+                     <td>{{ heading_tags.h5 }}</td>
+                     <td>{{ heading_tags.h6 }}</td>
+                  </tr>
+               </tbody>
+            </table>
+
+            <br />
+            {% if heading_tags.h1 == 0 %}
+                <h4 class="text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ text_missing_h1 }}</h4>
+                <p>{{ text_h1_missing }}</p>
+            {% elseif heading_tags.h1 >  1 %} 
+                <h4 class="text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ text_many_h1_tags }}</h4>
+                <p>{{ text_h1_missing }}</p>
+            {% endif %}
+            <br />
+            {% if heading_tags.h1 == 1 %} 
+                {% if fields_checker_values.h1.0|length <= 15  or  fields_checker_values.h1.0|length >=  65 %} 
+                   <h4 class="text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_long_small_h1_tag }}</h4>
+                {% else %}   
+                   <h4 class="text-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_h1_tag }}</h4>
+                {% endif %} 
+                <p>{{ text_h1_label }}</p>
+                <h4>"{{ fields_checker_values.h1.0 }}"</h4>
+            {% endif %} 
+
+
+            <br />
+            {% if small_long_headings_counter > 0 %} 
+                <h4 class="text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ text_long_small_headings }}({{ small_long_headings_counter }})</h4>
+                <table class="table table-striped table-hover">
+                   <thead>
+                      <tr>
+                         <th class="col-xs-2">{{ text_heading }}</th>
+                         <th class="col-xs-10">{{ text_text }}</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {% for heading in small_long_headings %} 
+                          <tr>
+                             <td>{{ heading.heading }}</td>
+                             <td>{{ heading.text }}</td>
+                          </tr>
+                      {% endfor %}
+                   </tbody>
+                </table>
+                <br /><br />
+                <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_long_small_headings_helper }}
+            {% else %}   
+                <h4 class="text-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ text_long_small_headings }}({{ small_long_headings_counter }})</h4>
+                <p>Great! It looks like you are doing great! You have no headings which are too small or too big.</p>
+                <br />
+                <i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_long_small_headings_helper }}
+            {% endif %} 
+            <hr />
+        </div>
+    </div>
+    
+{% else %}   
+    {% if missing_functionality %} 
+        <br /><br />
+        <h3 class="text-center">{{ text_crawler_missing_functionality }}</h3>
+    {% else %}    
+        <br /><br />
+        <h2 class="text-center">{{ text_url_not_accessible }}</h2>
+    {% endif %}
+{% endif %}

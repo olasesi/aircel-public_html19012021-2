@@ -1,0 +1,55 @@
+<div class="container-fluid">
+	<div class="row">
+  		<div class="col-xs-12 col-md-8">
+            <h3>{{ text_image_renamer_tool_heading }}</h3>
+            <div class="image_renaming_results">
+                <p><br /><strong>{{ text_image_last_usage }}</strong></p>
+                <ul>
+                    <li>{{ seo_image_titles_date is empty ? text_never : seo_image_titles_date }}</li>
+                </ul>
+                <p><strong>{{ text_image_last_results }}</strong></p>
+                {% if seo_image_last_activity is empty  %}
+                <ul>
+                     <li>{{ text_not_used }}</li>
+                </ul>
+                {% else %}   
+                <ul>
+                    <li>{{ text_images_renamed }} {{ seo_image_last_activity.renamed_images }}</li>
+                    <li>{{ text_images_already_renamed }} {{ seo_image_last_activity.already_renamed }}</li>
+                    <li>{{ text_product_images_ids }} {% if seo_image_last_activity.products_with_no_image == '' %} {{ text_none }}{% else %} {{ seo_image_last_activity.products_with_no_image|join(',') }}{% endif %}</li>
+                    <li>{{ text_errors }} {{ seo_image_last_activity.errors is empty ? text_no_errors : '<strong>' ~ seo_image_last_activity.errors ~ '</strong>' }}</li>
+                </ul>
+                {% endif %}                
+            </div>           
+            <p>
+                <br />
+                <a onClick="generateImageNames();" class="btn btn-primary btn-md">{{ text_generate_image_names }}</a>
+            </p>
+            <input type="checkbox" name="rename_additional_images" value="yes" /> {{ text_generate_additional_image_names }}
+            <br>
+            <hr>
+            <div id="seo_images_advanced" role="tabpanel" class="tab-pane fade in">
+                <br />
+                <h3>{{ text_advanced_settings }}</h3>
+                <br>
+                <label for="images_filename_string"><strong>{{ text_image_string }}</strong></label>
+                <input name="images_filename_string" type="text" class="form-control" value="{{ images_filename_string }}" id="images_filename_string"/>
+                <br />{{ text_short_codes }}<br />
+                [product], [model], [sku], [upc]
+                <p>
+                    <br />
+                    <a onClick="saveChanges('#seo_images_advanced');" class="btn btn-md btn-primary">{{ text_save_changes }}</a>
+                </p>
+            </div>
+  		</div>
+  		
+  		<div class="col-xs-12 col-md-4">
+            <div class="box-heading">
+                <h1><i class="fa fa-info-circle" aria-hidden="true"></i>{{ tab_image_titles_helper_title }}</h1>
+            </div>
+            <div class="box-content">
+                {{ tab_image_titles_helper }}
+            </div>
+        </div>
+	</div>
+</div>

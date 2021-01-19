@@ -1,0 +1,122 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+	{% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+	{% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default card">
+      <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-list"></i> {{ text_bulk_shipping_upload }}</h3>
+      </div>
+      <div class="panel-body card-body">
+	  		  <div class="well card mb-3 p-3">
+          <div class="row">
+		  	  <div class="col-sm-12" style="text-align:left;">
+				 <div>
+				  <div>
+					<label class="control-label col-form-label" for="input-name" style="  font-weight: normal; ">{{ text_maxtime_info }}</label><label style="font-weight: bold;">&nbsp;{{ max_time }}&nbsp;{{ text_seconds }}</label>
+					
+				  </div>
+				  <div>
+				  	
+					<label class="control-label col-form-label" for="input-name" style=" font-weight: normal ">{{ text_file_size_info }} </label><label style="font-weight: bold;">&nbsp;{{ memory_limit }}</label>
+					
+				  </div>
+				</div>
+             
+            </div>
+          </div>
+        </div>   
+	  <form action="{{ export }}" method="post" enctype="multipart/form-data" id="form-customer">
+              <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-download"></i> {{ text_bulk_shipping_export_data }}</h3>
+      </div>
+		<div class="well card mb-3 p-3">
+          <div class="row">
+		  		<div class="col-sm-4" style="text-align:left;">
+				<div class="form-group">
+				<label class="control-label col-form-label" for="input-name" >{{ entry_select_seller }}</label>
+				<select name="seller_id" id="input-status" class="form-control">
+				
+				<option value="" >{{ text_none }} </option>
+				 {% for seller_id in seller_id %}
+				 
+                  <option value="{{ seller_id.seller_id  }}" >{{ seller_id.store_name }} ({{ seller_id.seller_id }})</option>
+				  {% endfor %}
+                </select>
+		
+              </div>
+			  </div>
+				<div class="col-sm-2 col-md-offset-6 offset-6 d-flex align-items-center" style="text-align:left;">
+				  <div class="form-group">
+				  	<input type="submit" value="{{ button_export }}" class="btn btn-primary" class="button_add"  style=" padding: 8px 20px 8px 20px; " >
+					
+				  </div>
+				</div>
+             
+            </div>
+          </div>
+		  </form>
+		  	  <form action="{{ upload }}" method="post" enctype="multipart/form-data" id="form-customer">
+              <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-upload"></i> {{ text_bulk_shipping_upload_data }}</h3>
+      </div>
+		<div class="well card mb-3 p-3">
+          <div class="row">
+		  	  
+	
+				<div class="col-sm-4" style="text-align:left;">
+				<div class="form-group">
+				<label class="control-label col-form-label" for="input-name" >{{ entry_select_seller }}</label>
+				<select name="seller_id" id="input-status" class="form-control">
+				
+				<option value="" >{{ text_none }} </option>
+				 {% for seller_id in seller_id %}
+				 
+                  <option value="{{ seller_id.seller_id  }}" >{{ seller_id.store_name }} ({{ seller_id.seller_id }})</option>
+				  {% endfor %}
+                </select>
+		
+              </div>
+			  </div>
+					<div class="col-sm-6" style="text-align:left;">
+				  <div class="form-group">
+				  	<input type="file" style="height:35px; margin-top: 22px;"  name="import">
+					
+				  </div>
+				</div>
+
+				<div class="col-sm-2  d-flex align-items-center" style="text-align:left;">
+				  <div class="form-group">
+				  	<input type="submit" value="{{ button_upload }}" class="btn btn-primary" class="button_add"  style=" padding: 8px 20px 8px 20px; " >
+					
+				  </div>
+				</div>
+             
+            </div>
+          </div>
+		  </form>
+    
+      </div>
+    </div>
+  </div>
+
+{{ footer }} 

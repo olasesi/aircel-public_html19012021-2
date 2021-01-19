@@ -1,0 +1,69 @@
+<div class="alert alert-light bg-light">
+    {{ info_configure_warmup }}
+</div>
+
+<div class="form-group">
+    <h5 class="mb-2">{{ entry_warmup_language }}</h5>
+    {% for language in languages %}
+    <div class="row">
+        <div class="col-xs-8 col-form-label">
+            {{ language.text }}
+            {% if language.default %}
+                <span class="badge badge-secondary">{{ text_default }}</span>
+            {% endif %}
+        </div>
+        <div class="col-xs-4 text-right">
+            <label class="switch" {% if language.disabled %} data-toggle="tooltip" title="{{ text_disabled_default_language }}" {% endif %}>
+                <input type="checkbox" name="language[]" data-exclude-name="excluded_warmup_languages[]" value="{{ language.code }}" {{ language.status ? 'checked' }} {{ language.disabled ? 'disabled' }} />
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    {% endfor %}
+    <hr />
+    <h5 class="mb-2">{{ entry_warmup_currency }}</h5>
+    {% for currency in currencies %}
+    <div class="row">
+        <div class="col-xs-8 col-form-label">
+            {{ currency.text }}
+            {% if currency.default %}
+                <span class="badge badge-secondary">{{ text_default }}</span>
+            {% endif %}
+        </div>
+        <div class="col-xs-4 text-right">
+            <label class="switch" {% if currency.disabled %} data-toggle="tooltip" title="{{ text_disabled_default_currency }}" {% endif %}>
+                <input type="checkbox" name="currency[]" data-exclude-name="excluded_warmup_currencies[]" value="{{ currency.code }}" {{ currency.status ? 'checked' }} {{ currency.disabled ? 'disabled' }} />
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    {% endfor %}
+    <hr />
+    <h5 class="mb-2">{{ entry_warmup_route }}</h5>
+    {% for route in routes %}
+    <div class="row">
+        <div class="col-xs-8 col-form-label">
+            {{ route.text }}
+        </div>
+        <div class="col-xs-4 text-right">
+            <label class="switch">
+                <input type="checkbox" name="route[]" data-route-name="included_warmup_routes[]" value="{{ route.value }}" {{ route.status ? 'checked' }} />
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    {% endfor %}
+    <hr />
+    <h5 class="mb-2">{{ entry_warmup_misc }}</h5>
+    <div class="row">
+        <div class="col-xs-8 col-form-label">
+            {{ text_product_categories_warmup }}
+        </div>
+        <div class="col-xs-4 text-right">
+            <label class="switch">
+                <input type="checkbox" name="product_categories_warmup" data-finetune-name="product_categories_warmup" value="1" {{ product_categories_warmup ? 'checked' }} />
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="col-xs-12 col-md-8 seo-analysis-tab">
+    <br />
+    <div class="loader"></div>
+</div>
+<div class="col-xs-12 col-md-4">
+	<div class="box-heading">
+    	<h1><i class="fa fa-info-circle" aria-hidden="true"></i>{{ text_seo_analysis_helper_title }}</h1>
+    </div>
+    <div class="box-content">
+    	{{ text_seo_analysis_helper }} 
+    </div>
+    <br /><br />
+    <strong>{{ text_crawler_actions }} </strong>:
+    <p><br />
+    {% if toggle_seo_analysis %} 
+    <a class="btn btn-sm btn-default" href="{{ toggle_seo_analysis_url }} ">{{ btn_disable_seo_analysis }}</a>
+    {% else %}  
+    <a class="btn btn-sm btn-primary" href="{{ toggle_seo_analysis_url }} ">{{ btn_enable_seo_analysis }}</a>
+    {% endif %} 
+    <br /><br />
+    <a class="btn btn-sm btn-primary" onClick="clearAnalysisResults();">{{ text_clear_analysis_list }}</a>
+    </p>
+</div>

@@ -1,0 +1,223 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right"><a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-comment').submit() : false;"><i class="fa fa-trash-o fas fa-trash-alt"></i></button>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+			{% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+   {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+   {% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+     {% endif %}
+    <div class="panel panel-default card">
+      <div class="panel-heading">
+        <h3 class="panel-title card-header"><i class="fa fa-list"></i> {{ text_list }}</h3>
+      </div>
+      <div class="panel-body card-body">
+        <div class="well card mb-3 p-3">
+          <div class="row">
+            <div class="col-sm-12 row">
+					<div class="col-sm-3">
+					<div class="form-group catdivdrop">
+				   <input type="hidden" name="filter_seller_id" value="{{ filter_seller_id }}" class="form-control" />
+					<label class="control-label col-form-label" for="input-name">{{ entry_seller_store }}</label>
+					
+					<input type="text" name="filter_store_name" value="{{ filter_store_name }}" placeholder="{{ entry_seller_store }}" id="input-name" class="form-control" />				
+				  </div>
+				 </div>
+			
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label class="control-label col-form-label" for="input-product">{{ entry_post }}</label>
+						<input type="text" name="filter_post" value="{{ filter_post }}" placeholder="{{ entry_post }}" id="input-post" class="form-control" />
+					</div>				
+				</div>
+		
+				<div class="col-sm-2">
+				  <div class="form-group">
+					<label class="control-label col-form-label" for="input-status">{{ entry_status }}</label>
+					<select name="filter_status" id="input-status" class="form-control">
+					  <option value="*">{{ text_all }}</option>
+					{% if filter_status =='1' %}
+					  <option value="1" selected="selected">{{ text_enabled }}</option>
+					 {% else %}
+					  <option value="1">{{ text_enabled }}</option>
+					    {% endif %}
+					 {% if filter_status =='0' %}
+					  <option value="0" selected="selected">{{ text_disabled }}</option>
+					 {% else %}
+					  <option value="0">{{ text_disabled }}</option>
+					  {% endif %}
+					</select>
+				  </div>
+				</div>
+				<div class="col-sm-3">
+				  <div class="form-group">
+					<label class="control-label col-form-label" for="input-date-added">{{ entry_date_added }}</label>
+					<div class="input-group date">
+					  <input type="text" name="filter_date_added" value="{{ filter_date_added }}" placeholder="{{ entry_date_added }}" data-date-format="YYYY-MM-DD" id="input-date-added" class="form-control" />
+					  <span class="input-group-btn">
+					  <button type="button" class="btn btn-default btn-light"><i class="fa fa-calendar"></i></button>
+					  </span></div>
+				  </div>
+				</div>
+				<div class="col-sm-1">
+					<button type="button" id="button-filter" class="btn btn-primary " style="margin-top:38px;"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+				</div>
+            </div>
+          </div>
+        </div>
+        <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-comment">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\').prop('checked', this.checked);" /></td>
+                  <td class="text-left">{{ column_post }}</td>
+                  <td class="text-left">{{ column_name }}</td>
+                  <td class="text-center">{{ column_email }}</td>
+				  <td class="text-center">{{ column_seller_store }}</td>
+                  <td class="text-left">{{ column_status }}</td>
+                  <td class="text-left">{{ column_date_added }}</td>
+                  <td class="text-right">{{ column_action }}</td>
+                </tr>
+              </thead>
+              <tbody>
+                {% if comments %}
+                {% for comment in comments %}
+                <tr>
+                  <td class="text-center">{% if selected in comment.comment_id %}
+                    <input type="checkbox" name="selected[]" value="{{ comment.comment_id }}" checked="checked" />
+                   {% else %}
+                    <input type="checkbox" name="selected[]" value="{{ comment.comment_id }}" />
+                    {% endif %}</td>
+                  <td class="text-left">{{ comment.post }}</td>
+                  <td class="text-left">{{ comment.name }}</td>
+                  <td class="text-right">{{ comment.email_id }}</td>
+				  <td class="text-right">{{ comment.seller_store }}</td>
+                  <td class="text-left">{{ comment.status }}</td>
+                  <td class="text-left">{{ comment.date_added }}</td>
+                  <td class="text-right"><a href="{{ comment.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil fas fa-edit"></i></a></td>
+                </tr>
+                {% endfor %}
+               {% else %}
+                <tr>
+                  <td class="text-center" colspan="8">{{ text_no_results }}</td>
+                </tr>
+               {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	
+	
+	url = 'index.php?route=extension/purpletree_multivendor/sellerblogcomment&user_token={{ user_token }}';
+	
+	var filter_post = $('input[name=\'filter_post\']').val();
+
+	if (filter_post) {
+		url += '&filter_post=' + encodeURIComponent(filter_post);
+	}
+	
+	
+	
+	var filter_store_name = $('input[name=\'filter_store_name\']').val();
+	
+	if (filter_store_name) {
+		url += '&filter_store_name=' + encodeURIComponent(filter_store_name);
+	var filter_seller_id = $('input[name=\'filter_seller_id\']').val();
+	
+	if (filter_seller_id) {
+		url += '&filter_seller_id=' + encodeURIComponent(filter_seller_id);
+	}
+	}
+	
+	var filter_status = $('select[name=\'filter_status\']').val();
+	
+	if (filter_status != '*') {
+		url += '&filter_status=' + encodeURIComponent(filter_status); 
+	}		
+			
+	var filter_date_added = $('input[name=\'filter_date_added\']').val();
+	
+	if (filter_date_added) {
+		url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
+	}
+
+	location = url;
+});
+//--></script> 
+  <script type="text/javascript"><!--
+var x='{{ ver }}';
+if(x=='3.1.0.0_b')
+{
+$('.date').datetimepicker({
+	'format': 'YYYY-MM-DD',
+	'locale': '{{ datepicker }}',
+	'allowInputToggle': true
+});
+} else {
+$('.date').datetimepicker({
+	pickTime: false
+});
+}
+//--></script>
+<script type="text/javascript"><!--
+$('input[name=\'filter_store_name\']').autocomplete({
+'source': function(request, response) {
+$.ajax({
+url: 'index.php?route=extension/purpletree_multivendor/sellerblogpost/autosellerstore&user_token={{ user_token }}&filter_store_name=' +  encodeURIComponent(request),
+
+dataType: 'json',	
+success: function(json) {
+response($.map(json, function(item) {
+return {
+label: item['name'],
+value: item['vendor_id']
+}
+}));
+}
+});
+},
+'select': function(item) {
+$('input[name=\'filter_store_name\']').val(item['label']);
+$('input[name=\'filter_seller_id\']').val(item['value']);
+}	
+});
+
+
+//--></script> 
+
+<style>
+.catdivdrop ul{
+	overflow: auto;
+	max-height: 120px;
+	width: 88%;
+}
+</style>
+</div>
+{{ footer }}

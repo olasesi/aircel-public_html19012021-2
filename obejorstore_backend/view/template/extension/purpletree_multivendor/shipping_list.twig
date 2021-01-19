@@ -1,0 +1,259 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right float-right">
+		<a href="{{url}}" data-toggle="tooltip" title="{{ button_upload }}"><input type="button" value="{{ button_upload }}" class="btn btn-primary" class="button_add"  style=" padding: 8px 20px 8px 20px; " ></a>
+        <button type="button" data-toggle="tooltip" title="{{ button_filter }}" onclick="$('#filter-seller').toggleClass('hidden-sm hidden-xs');" class="btn btn-default hidden-md hidden-lg"><i class="fa fa-filter"></i></button>
+        <a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-seller').submit() : false;"><i class="fa fa-trash-o fas fa-trash-alt"></i></button>
+		</div>
+	  
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">{% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+		<div class="panel-heading">
+			<h3 class="panel-title card-header"><i class="fa fa-filter"></i> <a style="color:#1e91cf;" target="_blank" href="{{ manageshippingoptionUrl }}">{{ manageshippingoption }}</a></h3> 
+		</div>
+    <div class="row">
+	   <div class="col-md-9 col-sm-12">
+        <div class="panel panel-default card">
+          <div class="panel-heading">
+            <h3 class="panel-title card-header"><i class="fa fa-list"></i> {{ text_list }}</h3>
+          </div>
+          <div class="panel-body card-body">
+            <div class="table-responsive">
+              <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-seller">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+					  
+                      <td class="text-left">{{ column_name }}</td>
+					  
+                      <td class="text-left">{{ column_shipping_country }}</td>
+					  
+                      <td class="text-left">{{ column_zip_from }}</td>
+					  
+                      <td class="text-left">{{ column_zip_to }}</td>
+					  
+                      <td class="text-left">{{ column_weight_from }}</td>
+					  
+						<td class="text-left">{{ column_weight_to }}</td>
+						 <td class="text-left">{{ column_price }}</td>
+                     <!--  <td class="text-right">{{ column_max_days }}</td> -->
+					  <td class="text-right">{{ column_action }}</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% if sellers %}
+                  {% for seller in sellers %}
+                  <tr>
+                    <td class="text-center">{% if seller.seller_id in selected %}
+                      <input type="checkbox" name="selected[]" value="{{ seller.shipping_id }}" checked="checked" />
+                      {% else %}
+                      <input type="checkbox" name="selected[]" value="{{ seller.shipping_id }}" />
+                      {% endif %}
+                    </td>
+                    <td class="text-left">{{ seller.name }}</td>
+                    <td class="text-left">{{ seller.shipping_country }}</td>
+                    <td class="text-left">{{ seller.zipcode_from }}</td>
+                    <td class="text-left">{{ seller.zipcode_to }}</td>
+                    <td class="text-left">{{ seller.weight_from }}</td>
+					<td class="text-left">{{ seller.weight_to }}</td>
+                    <td class="text-left">{{ seller.shipping_price }}</td>
+					<!-- <td class="text-left">{{ seller.max_days }}</td> -->
+                    <td class="text-right">
+                      <div class="btn-group" style="min-width: 65px;">
+                        <a onclick="checkdata(event)" href="{{ seller.deletes }}" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger"><i class="fa fa-trash-o fas fa-trash-alt"></i></a>                     
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% else %}
+                  <tr>
+                    <td class="text-center" colspan="100%">{{ text_no_results }}</td>
+                  </tr>
+                  {% endif %}
+                    </tbody>
+                </table>
+              </div>
+            </form>
+            <div class="row">
+              <div class="col-sm-6 text-left">{{ pagination }}</div>
+              <div class="col-sm-6 text-right">{{ results }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="filter-seller" class="col-md-3 col-sm-12 hidden-sm hidden-xs">
+        <div class="panel panel-default card">
+          <div class="panel-heading">
+            <h3 class="panel-title card-header"><i class="fa fa-filter"></i> {{ text_filter }}</h3>
+          </div>
+          <div class="panel-body card-body">
+			   <input type="hidden" name="filter_id" value="{{ filter_id }}" />
+            <div class="form-group">
+              <label class="control-label col-form-label" for="input-name">{{ entry_seller_name }}</label>	  
+			   <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_seller_name }}" id="input-name" class="form-control" />
+            </div>
+			
+			
+			<!-- country -->						
+				    <div class="form-group">
+                        <label class="control-label col-form-label" for="input-shipping-country">{{ entry_shipping_country }}</label>                       
+                          <select name="filter_shipping_country" id="input-shippingcountry" class="form-control">
+                            <option value="">{{ text_select }}</option>
+							{% for country in countries %}
+							{% if country.country_id == shipping_country %}
+                            <option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
+							{% else %}
+                            <option value="{{ country.country_id }}">{{ country.name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                          </select>
+                    </div>					  
+			<!-- country -->          
+            <div class="form-group">
+              <label class="control-label  col-form-label" for="input-zip-from">{{ entry_zip_from }}</label>
+              <input type="text" name="filter_zip_from" value="{{ filter_zip_from}}" placeholder="{{ entry_zip_from }}" id="input-zip-from" class="form-control" />
+            </div>
+			 <div class="form-group">
+              <label class="control-label col-form-label" for="input-zip-to">{{ entry_zip_to }}</label>
+              <input type="text" name="filter_zip_to" value="{{ filter_zip_to }}" placeholder="{{ entry_zip_to }}" id="input-zip-to" class="form-control" />
+            </div>
+			 <div class="form-group">
+              <label class="control-label col-form-label" for="input-weight-from">{{ entry_weight_from }}</label>
+              <input type="text" name="filter_weight_from" value="{{ filter_weight_from }}" placeholder="{{ entry_weight_from }}" id="input-weight-from" class="form-control" />
+            </div>
+			 <div class="form-group">
+              <label class="control-label col-form-label" for="input-weight-to">{{ entry_weight_to }}</label>
+              <input type="text" name="filter_weight_to" value="{{ filter_weight_to }}" placeholder="{{ entry_weight_to }}" id="input-weight-to" class="form-control" />
+            </div>
+           			 <div class="form-group">
+              <label class="control-label col-form-label" for="input-price">{{ entry_price }}</label>
+              <input type="text" name="filter_price" value="{{ filter_price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control" />
+            </div>
+            <div class="form-group text-right">
+              <button type="button" id="button-filter" class="btn btn-primary btn-default"><i class="fa fa-filter"></i> {{ button_filter }}</button>			  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ <script type="text/javascript"><!--
+  $('.table-responsive').on('shown.bs.dropdown', function (e) {
+    var t = $(this),
+      m = $(e.target).find('.dropdown-menu'),
+      tb = t.offset().top + t.height(),
+      mb = m.offset().top + m.outerHeight(true),
+      d = 20;
+    if (t[0].scrollWidth > t.innerWidth()) {
+      if (mb + d > tb) {
+        t.css('padding-bottom', ((mb + d) - tb));
+      }
+    } else {
+      t.css('overflow', 'visible');
+    }
+  }).on('hidden.bs.dropdown', function () {
+    $(this).css({'padding-bottom': '', 'overflow': ''});
+  });
+  //--></script>
+    <script type="text/javascript"><!--
+  $('#button-filter').on('click', function() {
+    url = 'index.php?route=extension/purpletree_multivendor/shipping&user_token={{ user_token }}';
+    var filter_id = $('input[name=\'filter_id\']').val();
+    if (filter_id) {
+      url += '&filter_id=' + encodeURIComponent(filter_id);
+    }
+    var filter_name = $('input[name=\'filter_name\']').val();
+    if (filter_name) {
+      url += '&filter_name=' + encodeURIComponent(filter_name);
+    }
+    var filter_shipping_country = $('select[name=\'filter_shipping_country\']').val();
+    if (filter_shipping_country !== '') {
+      url += '&filter_shipping_country=' + encodeURIComponent(filter_shipping_country);
+    }
+	var filter_zip_from = $('input[name=\'filter_zip_from\']').val();
+    if (filter_zip_from) {
+      url += '&filter_zip_from=' + encodeURIComponent(filter_zip_from);
+    }
+	var filter_zip_to = $('input[name=\'filter_zip_to\']').val();
+    if (filter_zip_to) {
+      url += '&filter_zip_to=' + encodeURIComponent(filter_zip_to);
+    }
+    var filter_price = $('input[name=\'filter_price\']').val();
+    if (filter_price) {
+      url += '&filter_price=' + encodeURIComponent(filter_price); 
+    }
+    var filter_weight_from = $('input[name=\'filter_weight_from\']').val();
+    if (filter_weight_from) {
+      url += '&filter_weight_from=' + encodeURIComponent(filter_weight_from);
+    }
+    var filter_weight_to = $('input[name=\'filter_weight_to\']').val();
+    if (filter_weight_to) {
+      url += '&filter_weight_to=' + encodeURIComponent(filter_weight_to);
+    }
+    location = url;
+  });
+  //--></script>
+  
+  
+<script type="text/javascript"><!--
+$('input[name=\'filter_name\']').autocomplete({
+'source': function(request, response) {
+$.ajax({
+url: 'index.php?route=extension/purpletree_multivendor/shipping/autocompleteseller&user_token={{ user_token }}',
+dataType: 'json',	
+success: function(json) {
+response($.map(json, function(item) {
+return {
+label: item['name'],
+value: item['vendor_id']
+}
+}));
+}
+});
+},
+'select': function(item) {
+$('input[name=\'filter_name\']').val(item['label']);
+$('input[name=\'filter_id\']').val(item['value']);
+}	
+});
+
+
+//--></script> 
+<style>
+.catdivdrop ul{
+	overflow: auto;
+	max-height: 100px;
+	width: 30%;
+}
+</style>
+  <script>
+				 function checkdata(e){			
+				  if (confirm("{{ text_confirm }}")) {
+				  
+				  } else {
+				  e.preventDefault();
+				  }	  
+                  }
+</script>
+</div>
+{{ footer }}

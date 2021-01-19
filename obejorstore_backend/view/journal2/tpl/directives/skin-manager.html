@@ -1,0 +1,9 @@
+<div class="store-picker">
+    <span>
+    Active Skin {{test}}
+    <select ui-select2="{minimumResultsForSearch: -1}" data-ng-model="skin_id" data-ng-change="skinChange()">
+        <option data-ng-repeat="skin in skins" value="{{skin.id}}">{{skin.name}}</option>
+    </select>
+    </span>
+    <a data-ng-click="openManager()" data-ng-show="stores.length > 1" class="btn blue med">MultiStore</a>
+</div>
